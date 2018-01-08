@@ -10,6 +10,8 @@ RUN npm install; \
 	cd modules; \
 	git clone https://bitbucket.org/sharelatex/launchpad-webmodule.git launchpad; \
 	grunt compile;
+	
+RUN grunt compile:minify
 
 ADD settings.coffee /etc/sharelatex/
 
@@ -18,7 +20,6 @@ RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 ADD nginx/sharelatex.conf /etc/nginx/sites-enabled/sharelatex.conf
 
-RUN grunt compile:minify
 
 RUN mkdir -p /var/log/sharelatex/
 
