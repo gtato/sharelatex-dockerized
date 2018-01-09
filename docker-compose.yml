@@ -34,7 +34,7 @@ services:
             default:
                 aliases:
                     - sharelatex-web
-
+            
         expose:
             - 3000
             #Set for SSL via nginx-proxy
@@ -254,6 +254,7 @@ services:
     
 networks:
     default:   
+    
 # nginx-proxy:
 #     image: jwilder/nginx-proxy
 #     container_name: nginx-proxy
