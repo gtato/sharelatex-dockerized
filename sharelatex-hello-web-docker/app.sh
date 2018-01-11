@@ -2,5 +2,5 @@
 
 mongod --config /etc/mongod.conf&
 service nginx start&
-npm run start
+node app.js
 

@@ -1,0 +1,2 @@
+# delay the outgoing traffic from sharelatex-web by 1 second
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 5m delay --time 1000 sharelatex-web

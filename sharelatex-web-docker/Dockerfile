@@ -15,6 +15,8 @@ RUN grunt compile:minify
 
 ADD settings.coffee /etc/sharelatex/
 
+ADD users.coffee /app/
+RUN cat users.coffee >> Gruntfile.coffee
 
 RUN rm /etc/nginx/sites-enabled/default
 ADD nginx/nginx.conf /etc/nginx/nginx.conf

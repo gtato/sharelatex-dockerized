@@ -29,7 +29,8 @@ services:
             SHARELATEX_REDIS_HOST: redis
             SHARELATEX_APP_NAME: MicroSharedLatex
             SHARELATEX_SESSION_SECRET: 'secret-please-change'
-        
+            SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
+            SHARELATEX_SITE_URL: http://localhost:8080
         networks:
             default:
                 aliases:
