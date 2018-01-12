@@ -54,6 +54,7 @@
 
 		settings = require "settings-sharelatex"
 		UserRegistrationHandler = require "./app/js/Features/User/UserRegistrationHandler"
+		j = 0
 		for i in [1..nr]
 			u = {
 				email: "#{uname}#{i}@#{email}",
@@ -64,7 +65,9 @@
 				if error
 					console.log("failed to create user: ", error)
 					process.exit(1)
-				done()
+				j++
+				if j == nr
+					done()
 			)
 			
 

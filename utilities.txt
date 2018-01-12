@@ -1,2 +1,9 @@
-# delay the outgoing traffic from sharelatex-web by 1 second
+# Delay the outgoing traffic from sharelatex-web by 1 second
 docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 5m delay --time 1000 sharelatex-web
+
+
+# Create an admin account 
+docker exec -it sharelatex-web grunt user:create-admin --email admin@example.com
+
+# Create some user accounts (in this case 5 users needed for locust)
+docker exec -it sharelatex-web grunt user:seed --nr 5 --uname locust --email sharelatex.dev --password locust
