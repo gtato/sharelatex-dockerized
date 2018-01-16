@@ -3,7 +3,11 @@ docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba p
 
 
 # Create an admin account 
-docker exec -it sharelatex-web grunt user:create-admin --email admin@example.com
+docker exec -it sharelatex-web grunt user:create-admin --email admin@sharelatex.dev
 
 # Create some user accounts (in this case 5 users needed for locust)
 docker exec -it sharelatex-web grunt user:seed --nr 5 --uname locust --email sharelatex.dev --password locust
+
+
+#test quick fix
+RUN sed -i 's/headers: req.headers, //g' app/coffee/Features/Spelling/SpellingController.coffee

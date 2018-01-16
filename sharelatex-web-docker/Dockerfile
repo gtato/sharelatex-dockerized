@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y nginx
 
 RUN git clone https://github.com/sharelatex/web-sharelatex.git /app
 WORKDIR /app
-
+RUN sed -i 's/headers: req.headers, //g' app/coffee/Features/Spelling/SpellingController.coffee
 RUN npm install; \
 	npm install bcrypt; \
 	cd modules; \
