@@ -9,5 +9,9 @@ docker exec -it sharelatex-web grunt user:create-admin --email admin@sharelatex.
 docker exec -it sharelatex-web grunt user:seed --nr 5 --uname locust --email sharelatex.dev --password locust
 
 
-#test quick fix
+#test quick fix for the header length problem in spelling
 RUN sed -i 's/headers: req.headers, //g' app/coffee/Features/Spelling/SpellingController.coffee
+
+
+#restart a single container 
+docker-compose up -d --no-deps --build <service_name>

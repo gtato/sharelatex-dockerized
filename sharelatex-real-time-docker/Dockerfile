@@ -5,9 +5,8 @@ WORKDIR /app
 
 ADD settings.defaults.coffee /app/config
 
-RUN npm install
-RUN grunt install
-
+RUN npm install ; \ 
+    grunt install
 
 EXPOSE 3026
 
