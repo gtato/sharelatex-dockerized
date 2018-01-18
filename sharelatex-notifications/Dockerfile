@@ -1,11 +1,10 @@
-FROM sharelatex-node:latest
+FROM sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/notifications-sharelatex.git /app
 WORKDIR /app
-RUN sed -i 's/localhost/0.0.0.0/g' config/settings.defaults.coffee
-
-RUN npm install
-RUN grunt install
+RUN sed -i 's/localhost/0.0.0.0/g' config/settings.defaults.coffee ;\
+    npm install ;\
+    grunt install
 
 EXPOSE 3042
 

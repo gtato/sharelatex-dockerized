@@ -1,4 +1,4 @@
-FROM sharelatex-node:latest
+FROM sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/real-time-sharelatex.git /app
 WORKDIR /app

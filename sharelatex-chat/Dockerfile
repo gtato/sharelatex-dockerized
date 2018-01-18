@@ -1,10 +1,10 @@
-FROM sharelatex-node:latest
+FROM sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/chat-sharelatex.git /app
 WORKDIR /app
 
-RUN npm install
-RUN grunt install
+RUN npm install ;\
+    grunt install
 
 ADD settings.defaults.coffee /app/config/
 

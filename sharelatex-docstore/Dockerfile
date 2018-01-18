@@ -1,11 +1,11 @@
-FROM sharelatex-node:latest
+FROM sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/docstore-sharelatex.git /app
 WORKDIR /app
-RUN sed -i 's/localhost/0.0.0.0/g' config/settings.defaults.coffee
 
-RUN npm install
-RUN grunt install
+RUN npm install ;\
+    grunt install ;\
+    sed -i 's/localhost/0.0.0.0/g' config/settings.defaults.coffee
 
 EXPOSE 3016
 

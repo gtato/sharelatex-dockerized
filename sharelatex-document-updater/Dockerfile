@@ -1,13 +1,12 @@
-FROM sharelatex-node:latest
+FROM sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/document-updater-sharelatex.git /app
 WORKDIR /app
 
 ADD settings.defaults.coffee /app/config
 
-RUN npm install
-RUN grunt install
-
+RUN npm install ;\
+    grunt install
 
 EXPOSE 3003
 

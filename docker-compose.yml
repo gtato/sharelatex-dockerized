@@ -3,7 +3,7 @@ services:
     sharelatex-web:
         restart: always
         image: sharelatex-web
-        build: sharelatex-web-docker
+        build: sharelatex-web
         container_name: sharelatex-web
         depends_on:
             - redis
@@ -35,63 +35,13 @@ services:
             default:
                 aliases:
                     - sharelatex-web
-            
         expose:
             - 3000
-            #Set for SSL via nginx-proxy
-            #VIRTUAL_HOST: 103.112.212.22
-
-            # SHARELATEX_SITE_URL: http://sharelatex.mydomain.com
-            # SHARELATEX_NAV_TITLE: Our ShareLaTeX Instance
-            # SHARELATEX_HEADER_IMAGE_URL: http://somewhere.com/mylogo.png
-            # SHARELATEX_ADMIN_EMAIL: support@it.com
-
-            # SHARELATEX_LEFT_FOOTER: '[{"text": "Powered by <a href=\"https://www.sharelatex.com\">ShareLaTeX</a> 2016"},{"text": "Another page I want to link to can be found <a href=\"here\">here</a>"} ]'
-            # SHARELATEX_RIGHT_FOOTER: '[{"text": "Hello I am on the Right"} ]'
-
-            # SHARELATEX_EMAIL_FROM_ADDRESS: "team@sharelatex.com"
-
-            # SHARELATEX_EMAIL_AWS_SES_ACCESS_KEY_ID: 
-            # SHARELATEX_EMAIL_AWS_SES_SECRET_KEY: 
-
-            # SHARELATEX_EMAIL_SMTP_HOST: smtp.mydomain.com
-            # SHARELATEX_EMAIL_SMTP_PORT: 587
-            # SHARELATEX_EMAIL_SMTP_SECURE: false
-            # SHARELATEX_EMAIL_SMTP_USER: 
-            # SHARELATEX_EMAIL_SMTP_PASS: 
-            # SHARELATEX_EMAIL_SMTP_TLS_REJECT_UNAUTH: true
-            # SHARELATEX_EMAIL_SMTP_IGNORE_TLS: false
-            # SHARELATEX_CUSTOM_EMAIL_FOOTER: "<div>This system is run by department x </div>"
-
-            ################
-            ## Server Pro ##
-            ################
-
-            # SANDBOXED_COMPILES:true
-
-            # SHARELATEX_LDAP_HOST: 'ldap://ldap.forumsys.com' 
-            # SHARELATEX_LDAP_DN: 'uid=:userKey,dc=example,dc=com' 
-            # SHARELATEX_LDAP_BASE_SEARCH: 'dc=example,dc=com'
-            # SHARELATEX_LDAP_FILTER: '(uid=:userKey)'
-            # SHARELATEX_LDAP_ADMIN_DN: 'cn=read-only-admin,dc=example,dc=com' 
-            # SHARELATEX_LDAP_ADMIN_PW: password'
-            # SHARELATEX_LDAP_ANONYMOUS: "false"
-            # SHARELATEX_LDAP_EMAIL_ATT: "mail"
-            # SHARELATEX_LDAP_NAME_ATT: "name"
-            # SHARELATEX_LDAP_LAST_NAME_ATT: "secondname"
-            # SHARELATEX_LDAP_PLACEHOLDER: "Username"
-            # SHARELATEX_LDAP_TLS: "true"
-            # SHARELATEX_LDAP_TLS_OPTS_REJECT_UNAUTH:
-            # SHARELATEX_LDAP_TLS_OPTS_CA_PATH: '["/var/one.pem", "/var/two.pem"]'
-
-            # SHARELATEX_TEMPLATES_USER_ID: "578773160210479700917ee5"
-
-            # SHARELATEX_PROXY_LEARN: "true"
-    
+      
     sharelatex-clsi:
         restart: always
         image: sharelatex-clsi
-        build: sharelatex-clsi-docker
+        build: sharelatex-clsi
         container_name: sharelatex-clsi
         links:
             - sharelatex-filestore
@@ -101,7 +51,7 @@ services:
     sharelatex-filestore:
         restart: always
         image: sharelatex-filestore
-        build: sharelatex-filestore-docker
+        build: sharelatex-filestore
         container_name: sharelatex-filestore
         volumes:
             - ~/sharelatex_data/filestore:/app/data
@@ -112,7 +62,7 @@ services:
     sharelatex-docstore:
         restart: always
         image: sharelatex-docstore
-        build: sharelatex-docstore-docker
+        build: sharelatex-docstore
         container_name: sharelatex-docstore
         volumes:
             - ~/sharelatex_data/docstore:/var/lib/mongodb
@@ -121,7 +71,7 @@ services:
 
     sharelatex-tags:
         restart: always
-        build: sharelatex-tags-docker
+        build: sharelatex-tags
         image: sharelatex-tags
         container_name: sharelatex-tags
         volumes:
@@ -132,7 +82,7 @@ services:
     sharelatex-notifications:
         restart: always
         image: sharelatex-notifications
-        build: sharelatex-notifications-docker
+        build: sharelatex-notifications
         container_name: sharelatex-notifications
         volumes:
             - ~/sharelatex_data/notifications:/var/lib/mongodb
@@ -142,7 +92,7 @@ services:
     sharelatex-contacts:
         restart: always
         image: sharelatex-contacts
-        build: sharelatex-contacts-docker
+        build: sharelatex-contacts
         container_name: sharelatex-contacts
         volumes:
             - ~/sharelatex_data/contacts:/var/lib/mongodb
@@ -152,7 +102,7 @@ services:
     sharelatex-spelling:
         restart: always
         image: sharelatex-spelling
-        build: sharelatex-spelling-docker
+        build: sharelatex-spelling
         container_name: sharelatex-spelling
         expose:
             - 3005
@@ -167,7 +117,7 @@ services:
     sharelatex-chat:
         restart: always
         image: sharelatex-chat
-        build: sharelatex-chat-docker
+        build: sharelatex-chat
         container_name: sharelatex-chat
         expose:
             - 3010
@@ -185,7 +135,7 @@ services:
     sharelatex-track-changes:
         restart: always
         image: sharelatex-track-changes
-        build: sharelatex-track-changes-docker
+        build: sharelatex-track-changes
         container_name: sharelatex-track-changes
         expose:
             - 3015
@@ -204,7 +154,7 @@ services:
     sharelatex-real-time:
         restart: always
         image: sharelatex-real-time
-        build: sharelatex-real-time-docker
+        build: sharelatex-real-time
         container_name: sharelatex-real-time
         expose:
             - 3026
@@ -220,7 +170,7 @@ services:
     sharelatex-document-updater:
         restart: always
         image: sharelatex-document-updater
-        build: sharelatex-document-updater-docker
+        build: sharelatex-document-updater
         container_name: sharelatex-document-updater
         expose:
             - 3003

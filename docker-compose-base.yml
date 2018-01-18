@@ -1,0 +1,8 @@
+version: '2'
+services:
+    sharelatex-base:
+        image: sharelatex-base
+        container_name: sharelatex-base
+        build: sharelatex-base
+        privileged: true
+        

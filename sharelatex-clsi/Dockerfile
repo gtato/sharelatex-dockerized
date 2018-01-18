@@ -1,4 +1,4 @@
-FROM sharelatex-node:latest
+FROM sharelatex-base:latest
 
 RUN apt-get update && apt-get install -y python git-core build-essential zlib1g-dev latexmk texlive-latex-base texlive-latex-extra
 
