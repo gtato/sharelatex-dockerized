@@ -2,5 +2,6 @@
 
 mongod --config /etc/mongod.conf&
 service nginx start&
-npm run start
+nodemon 
+# npm run start
 

@@ -17,6 +17,7 @@ ADD users.coffee /app/
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
 ADD nginx/sharelatex.conf /etc/nginx/sites-enabled/sharelatex.conf
 ADD app.sh /app/
+ADD ChatController.coffee /app/app/coffee/Features/Chat/
 
 RUN grunt compile:minify ;\
     cat users.coffee >> Gruntfile.coffee ;\

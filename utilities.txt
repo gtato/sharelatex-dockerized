@@ -1,5 +1,10 @@
-# Delay the outgoing traffic from sharelatex-web by 1 second
-docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration--target 172.18.0.1  delay --time 1000 sharelatex-web
+# Delay the outgoing traffic from sharelatex-web by 45 ms
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 10m --target 172.18.0.1  delay --time 45 sharelatex-web
+
+# Isolate web, redis, document-updater and realtime by 45 ms
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 10m --target 172.18.0.7,172.18.0.9,172.18.0.3,172.18.0.12,172.18.0.4,172.18.0.6,172.18.0.10,172.18.0.14,172.18.0.11  delay --time 45 sharelatex-web sharelatex-document-updater sharelatex-real-time redis
+
+
 
 # Create an admin account 
 docker exec -it sharelatex-web grunt user:create-admin --email admin@sharelatex.dev
