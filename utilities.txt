@@ -1,8 +1,8 @@
 # Delay the outgoing traffic from sharelatex-web by 45 ms
-docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 10m --target 172.18.0.1  delay --time 45 sharelatex-web
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.18.0.1  delay --time 45 sharelatex-web
 
 # Isolate web, redis, document-updater and realtime by 45 ms
-docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 10m --target 172.18.0.7,172.18.0.9,172.18.0.3,172.18.0.12,172.18.0.4,172.18.0.6,172.18.0.10,172.18.0.14,172.18.0.11  delay --time 45 sharelatex-web sharelatex-document-updater sharelatex-real-time redis
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.18.0.7,172.18.0.9,172.18.0.3,172.18.0.12,172.18.0.4,172.18.0.6,172.18.0.10,172.18.0.14,172.18.0.11  delay --time 45 sharelatex-web sharelatex-document-updater sharelatex-real-time redis
 
 
 
@@ -19,3 +19,7 @@ RUN sed -i 's/headers: req.headers, //g' app/coffee/Features/Spelling/SpellingCo
 
 #restart a single container 
 docker-compose up -d --no-deps --build <service_name>
+
+
+# a command for printing method positions
+i=1; for j in `head -1 cloud.30mins.10users-5321`; do echo $i "${j//\\/}"; ((i++)); done;
