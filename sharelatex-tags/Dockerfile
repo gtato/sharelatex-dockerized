@@ -1,4 +1,4 @@
-FROM sharelatex-base:latest
+FROM gtato/sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/tags-sharelatex.git /app ;\
     sed -i 's/localhost/0.0.0.0/g' /app/config/settings.defaults.coffee

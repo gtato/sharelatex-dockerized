@@ -1,4 +1,4 @@
-FROM sharelatex-base:latest
+FROM gtato/sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/filestore-sharelatex.git /app
 WORKDIR /app

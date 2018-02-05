@@ -1,5 +1,6 @@
 #!/bin/bash
 
 mongod --config /etc/mongod.conf&
-node /app/app.js
 
+touch .foreverignore
+forever -w app.js

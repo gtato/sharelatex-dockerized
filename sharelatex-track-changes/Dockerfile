@@ -1,4 +1,4 @@
-FROM sharelatex-base:latest
+FROM gtato/sharelatex-base:latest
 
 RUN git clone https://github.com/sharelatex/track-changes-sharelatex.git /app
 WORKDIR /app

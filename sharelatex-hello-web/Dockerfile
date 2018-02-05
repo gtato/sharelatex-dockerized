@@ -1,4 +1,4 @@
-FROM sharelatex-web:latest
+FROM gtato/sharelatex-web:latest
 
 
 RUN rm -r /app/* ;\

@@ -1,4 +1,4 @@
-FROM sharelatex-base:latest
+FROM gtato/sharelatex-base:latest
 
 RUN apt-get update && apt-get install -y aspell aspell-en ;\ 
      git clone https://github.com/sharelatex/spelling-sharelatex.git /app

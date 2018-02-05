@@ -1,13 +1,13 @@
 version: '2'
 services:
     sharelatex-hello-web:
-        image: sharelatex-hello-web
+        image: gtato/sharelatex-hello-web
         #container_name: sharelatex-hello-web
         build: sharelatex-hello-web
         privileged: true
         #ports:
         #    - 8181:80
-        networks:
-            default:
-                aliases:
-                    - sharelatex-hello-web
+        # networks:
+        #     default:
+        #         aliases:
+        #             - sharelatex-hello-web

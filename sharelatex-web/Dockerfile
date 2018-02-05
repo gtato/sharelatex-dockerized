@@ -1,4 +1,4 @@
-FROM sharelatex-base:latest
+FROM gtato/sharelatex-base:latest
 
 RUN apt-get update && apt-get install -y nginx ;\
     git clone https://github.com/sharelatex/web-sharelatex.git /app

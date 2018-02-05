@@ -32,6 +32,7 @@ module.exports =
 				docsWithHistoryOps: ({project_id}) -> "DocsWithHistoryOps:#{project_id}"
 
 	trackchanges:
+		continueOnError: true
 		s3:
 			key: ""
 			secret: ""

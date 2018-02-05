@@ -2,7 +2,7 @@ version: '2'
 services:
     sharelatex-web:
         restart: always
-        image: sharelatex-web
+        image: gtato/sharelatex-web
         build: sharelatex-web
         container_name: sharelatex-web
         depends_on:
@@ -10,19 +10,6 @@ services:
         privileged: true
         ports:
             - 8080:80
-        links:
-            - redis
-            - sharelatex-clsi
-            - sharelatex-filestore
-            - sharelatex-docstore
-            - sharelatex-tags
-            - sharelatex-notifications
-            - sharelatex-contacts
-            - sharelatex-spelling
-            - sharelatex-chat
-            - sharelatex-track-changes
-            - sharelatex-real-time
-            - sharelatex-document-updater
         volumes:
             - ~/sharelatex_data/web:/var/lib/mongodb
         environment:
@@ -40,17 +27,15 @@ services:
       
     sharelatex-clsi:
         restart: always
-        image: sharelatex-clsi
+        image: gtato/sharelatex-clsi
         build: sharelatex-clsi
         container_name: sharelatex-clsi
-        links:
-            - sharelatex-filestore
         expose:
             - 3013
 
     sharelatex-filestore:
         restart: always
-        image: sharelatex-filestore
+        image: gtato/sharelatex-filestore
         build: sharelatex-filestore
         container_name: sharelatex-filestore
         volumes:
@@ -61,7 +46,7 @@ services:
 
     sharelatex-docstore:
         restart: always
-        image: sharelatex-docstore
+        image: gtato/sharelatex-docstore
         build: sharelatex-docstore
         container_name: sharelatex-docstore
         volumes:
@@ -72,7 +57,7 @@ services:
     sharelatex-tags:
         restart: always
         build: sharelatex-tags
-        image: sharelatex-tags
+        image: gtato/sharelatex-tags
         container_name: sharelatex-tags
         volumes:
             - ~/sharelatex_data/tags:/var/lib/mongodb
@@ -81,7 +66,7 @@ services:
 
     sharelatex-notifications:
         restart: always
-        image: sharelatex-notifications
+        image: gtato/sharelatex-notifications
         build: sharelatex-notifications
         container_name: sharelatex-notifications
         volumes:
@@ -91,7 +76,7 @@ services:
 
     sharelatex-contacts:
         restart: always
-        image: sharelatex-contacts
+        image: gtato/sharelatex-contacts
         build: sharelatex-contacts
         container_name: sharelatex-contacts
         volumes:
@@ -101,30 +86,22 @@ services:
         
     sharelatex-spelling:
         restart: always
-        image: sharelatex-spelling
+        image: gtato/sharelatex-spelling
         build: sharelatex-spelling
         container_name: sharelatex-spelling
         expose:
             - 3005
-        depends_on:
-            - redis
-        links:
-            - redis
         volumes:
             - ~/sharelatex_data/spelling:/var/lib/mongodb
 
 
     sharelatex-chat:
         restart: always
-        image: sharelatex-chat
+        image: gtato/sharelatex-chat
         build: sharelatex-chat
         container_name: sharelatex-chat
         expose:
             - 3010
-        depends_on:
-            - redis
-        links:
-            - redis
         networks:
             default:
                 aliases:
@@ -134,16 +111,13 @@ services:
 
     sharelatex-track-changes:
         restart: always
-        image: sharelatex-track-changes
+        image: gtato/sharelatex-track-changes
         build: sharelatex-track-changes
         container_name: sharelatex-track-changes
         expose:
             - 3015
         depends_on:
             - redis
-        links:
-            - redis
-            - sharelatex-docstore
         networks:
             default:
                 aliases:
@@ -153,14 +127,12 @@ services:
 
     sharelatex-real-time:
         restart: always
-        image: sharelatex-real-time
+        image: gtato/sharelatex-real-time
         build: sharelatex-real-time
         container_name: sharelatex-real-time
         expose:
             - 3026
         depends_on:
-            - redis
-        links:
             - redis
         networks:
             default:
@@ -169,14 +141,12 @@ services:
 
     sharelatex-document-updater:
         restart: always
-        image: sharelatex-document-updater
+        image: gtato/sharelatex-document-updater
         build: sharelatex-document-updater
         container_name: sharelatex-document-updater
         expose:
             - 3003
         depends_on:
-            - redis
-        links:
             - redis
         networks:
             default:
@@ -197,11 +167,15 @@ services:
     redis:
         restart: always
         image: redis
-        container_name: redis
+        # container_name: redis
         expose:
             - 6379
-        volumes:
-            - ~/redis_data:/data
+        # volumes:
+        #     - ~/redis_data:/data
+        networks:
+            default:
+                aliases:
+                    - redis
     
 networks:
     default:   

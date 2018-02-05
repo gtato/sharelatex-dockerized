@@ -1,5 +1,5 @@
 #!/bin/bash
 
 mongod --config /etc/mongod.conf&
-node /app/app.js
+nodemon /app/app.js
 
