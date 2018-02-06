@@ -129,7 +129,7 @@ services:
         restart: always
         image: gtato/sharelatex-real-time
         build: sharelatex-real-time
-        container_name: sharelatex-real-time
+        # container_name: sharelatex-real-time
         expose:
             - 3026
         depends_on:
