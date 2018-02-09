@@ -10,11 +10,11 @@ module.exports =
 
 	apis:
 		web:
-			url: process.env["SHARELATEX_WEB_URL"] or 'http://sharelatex-web:3000'
+			url: process.env["SHARELATEX_WEB_URL"] or 'http://web:3000'
 			user: "sharelatex"
 			pass: "password"
 		trackchanges:
-			url: process.env["SHARELATEX_TRACK_CHANGES_URL"] or 'http://sharelatex-track-changes:3015'
+			url: process.env["SHARELATEX_TRACK_CHANGES_URL"] or 'http://track-changes:3015'
 		project_history:
 			enabled: process.env.SHARELATEX_ENABLE_PROJECT_HISTORY == 'true'
 			url: "http://localhost:3054"

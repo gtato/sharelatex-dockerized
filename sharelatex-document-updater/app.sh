@@ -2,5 +2,5 @@
 
 mongod --config /etc/mongod.conf&
 
-touch .foreverignore
-forever -w app.js
+forever -w --watchDirectory app/js/  app.js
+#nodemon app.js

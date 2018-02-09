@@ -1,10 +1,10 @@
 version: '2'
 services:
-    sharelatex-web:
+    web:
         restart: always
         image: gtato/sharelatex-web
         build: sharelatex-web
-        container_name: sharelatex-web
+        # container_name: sharelatex-web
         depends_on:
             - redis
         privileged: true
@@ -21,99 +21,99 @@ services:
         networks:
             default:
                 aliases:
-                    - sharelatex-web
+                    - web
         expose:
             - 3000
       
-    sharelatex-clsi:
+    clsi:
         restart: always
         image: gtato/sharelatex-clsi
         build: sharelatex-clsi
-        container_name: sharelatex-clsi
+        # container_name: sharelatex-clsi
         expose:
             - 3013
 
-    sharelatex-filestore:
+    filestore:
         restart: always
         image: gtato/sharelatex-filestore
         build: sharelatex-filestore
-        container_name: sharelatex-filestore
+        # container_name: sharelatex-filestore
         volumes:
             - ~/sharelatex_data/filestore:/app/data
         expose:
             - 3009
         
 
-    sharelatex-docstore:
+    docstore:
         restart: always
         image: gtato/sharelatex-docstore
         build: sharelatex-docstore
-        container_name: sharelatex-docstore
+        # container_name: sharelatex-docstore
         volumes:
             - ~/sharelatex_data/docstore:/var/lib/mongodb
         expose:
             - 3016
 
-    sharelatex-tags:
+    tags:
         restart: always
         build: sharelatex-tags
         image: gtato/sharelatex-tags
-        container_name: sharelatex-tags
+        # container_name: sharelatex-tags
         volumes:
             - ~/sharelatex_data/tags:/var/lib/mongodb
         expose:
             - 3012
 
-    sharelatex-notifications:
+    notifications:
         restart: always
         image: gtato/sharelatex-notifications
         build: sharelatex-notifications
-        container_name: sharelatex-notifications
+        # container_name: sharelatex-notifications
         volumes:
             - ~/sharelatex_data/notifications:/var/lib/mongodb
         expose:
             - 3042
 
-    sharelatex-contacts:
+    contacts:
         restart: always
         image: gtato/sharelatex-contacts
         build: sharelatex-contacts
-        container_name: sharelatex-contacts
+        # container_name: sharelatex-contacts
         volumes:
             - ~/sharelatex_data/contacts:/var/lib/mongodb
         expose:
             - 3036
         
-    sharelatex-spelling:
+    spelling:
         restart: always
         image: gtato/sharelatex-spelling
         build: sharelatex-spelling
-        container_name: sharelatex-spelling
+        # container_name: sharelatex-spelling
         expose:
             - 3005
         volumes:
             - ~/sharelatex_data/spelling:/var/lib/mongodb
 
 
-    sharelatex-chat:
+    chat:
         restart: always
         image: gtato/sharelatex-chat
         build: sharelatex-chat
-        container_name: sharelatex-chat
+        # container_name: sharelatex-chat
         expose:
             - 3010
         networks:
             default:
                 aliases:
-                    - sharelatex-chat
+                    - chat
         volumes:
             - ~/sharelatex_data/chat:/var/lib/mongodb
 
-    sharelatex-track-changes:
+    track-changes:
         restart: always
         image: gtato/sharelatex-track-changes
         build: sharelatex-track-changes
-        container_name: sharelatex-track-changes
+        # container_name: sharelatex-track-changes
         expose:
             - 3015
         depends_on:
@@ -121,11 +121,11 @@ services:
         networks:
             default:
                 aliases:
-                    - sharelatex-track-changes
+                    - track-changes
         volumes:
             - ~/sharelatex_data/track_changes:/var/lib/mongodb
 
-    sharelatex-real-time:
+    real-time:
         restart: always
         image: gtato/sharelatex-real-time
         build: sharelatex-real-time
@@ -137,13 +137,12 @@ services:
         networks:
             default:
                 aliases:
-                    - sharelatex-real-time
+                    - real-time
 
-    sharelatex-document-updater:
+    document-updater:
         restart: always
         image: gtato/sharelatex-document-updater
         build: sharelatex-document-updater
-        container_name: sharelatex-document-updater
         expose:
             - 3003
         depends_on:
@@ -151,9 +150,9 @@ services:
         networks:
             default:
                 aliases:
-                    - sharelatex-document-updater
-        volumes:
-            - ~/sharelatex_data/document_updater:/var/lib/mongodb
+                    - document-updater
+        # volumes:
+        #     - ~/sharelatex_data/document_updater:/var/lib/mongodb
 
     # mongo:
     #     restart: always

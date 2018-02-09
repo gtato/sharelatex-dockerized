@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
     sharelatex-hello-web:
         image: gtato/sharelatex-hello-web

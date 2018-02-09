@@ -12,6 +12,8 @@ RUN npm install ;\
 EXPOSE 3003
 
 ADD app.sh /app/
+ADD .foreverignore /app/
+
 CMD ["bash", "app.sh"]
 
 

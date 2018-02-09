@@ -29,11 +29,11 @@ module.exports =
 			
 	apis:
 		web:
-			url: process.env["SHARELATEX_WEB_URL"] or 'http://sharelatex-web:3000'
+			url: process.env["SHARELATEX_WEB_URL"] or 'http://web:3000'
 			user: "sharelatex"
 			pass: "password"
 		documentupdater:
-			url: process.env["SHARELATEX_DOCUMENT_UPDATER_URL"] or 'http://sharelatex-document-updater:3003'
+			url: process.env["SHARELATEX_DOCUMENT_UPDATER_URL"] or 'http://document-updater:3003'
 			
 	security:
 		sessionSecret: "secret-please-change"

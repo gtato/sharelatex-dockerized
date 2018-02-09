@@ -175,29 +175,29 @@ settings =
 			user: httpAuthUser
 			pass: httpAuthPass
 		clsi:
-			url: process.env["SHARELATEX_CLSI_URL"] or 'http://sharelatex-clsi:3013'
+			url: process.env["SHARELATEX_CLSI_URL"] or 'http://clsi:3013'
 		filestore:
-			url: process.env["SHARELATEX_FILESTORE_URL"] or 'http://sharelatex-filestore:3009'
+			url: process.env["SHARELATEX_FILESTORE_URL"] or 'http://filestore:3009'
 		docstore:
-			url: process.env["SHARELATEX_DOCSTORE_URL"] or 'http://sharelatex-docstore:3016'
-			pubUrl: process.env["SHARELATEX_DOCSTORE_URL"] or 'http://sharelatex-docstore:3016'
+			url: process.env["SHARELATEX_DOCSTORE_URL"] or 'http://docstore:3016'
+			pubUrl: process.env["SHARELATEX_DOCSTORE_URL"] or 'http://docstore:3016'
 		spelling:
-			url: process.env["SHARELATEX_SPELLING_URL"] or 'http://sharelatex-spelling:3005'
+			url: process.env["SHARELATEX_SPELLING_URL"] or 'http://spelling:3005'
 		tags:
-			url: process.env["SHARELATEX_TAGS_URL"] or 'http://sharelatex-tags:3012'
+			url: process.env["SHARELATEX_TAGS_URL"] or 'http://tags:3012'
 		notifications:
-			url: process.env["SHARELATEX_NOTIFICATIONS_URL"] or 'http://sharelatex-notifications:3042'
+			url: process.env["SHARELATEX_NOTIFICATIONS_URL"] or 'http://notifications:3042'
 		contacts:
-			url: process.env["SHARELATEX_CONTACTS_URL"] or 'http://sharelatex-contacts:3036'
+			url: process.env["SHARELATEX_CONTACTS_URL"] or 'http://contacts:3036'
 		chat: 
-			url: process.env["SHARELATEX_CHAT_URL"] or 'http://sharelatex-chat:3010'
-			internal_url: process.env["SHARELATEX_CHAT_URL"] or 'http://sharelatex-chat:3010'
+			url: process.env["SHARELATEX_CHAT_URL"] or 'http://chat:3010'
+			internal_url: process.env["SHARELATEX_CHAT_URL"] or 'http://chat:3010'
 		trackchanges:
-			url: process.env["SHARELATEX_TRACK_CHANGES_URL"] or 'http://sharelatex-track-changes:3015'
+			url: process.env["SHARELATEX_TRACK_CHANGES_URL"] or 'http://track-changes:3015'
 		realTime:
-			url: process.env["SHARELATEX_REAL_TIME_URL"] or 'http://sharelatex-real-time:3026'
+			url: process.env["SHARELATEX_REAL_TIME_URL"] or 'http://real-time:3026'
 		documentupdater:
-			url : process.env["SHARELATEX_DOCUMENT_UPDATER_URL"] or 'http://sharelatex-document-updater:3003'
+			url : process.env["SHARELATEX_DOCUMENT_UPDATER_URL"] or 'http://document-updater:3003'
 
 	internal:
 		web:
