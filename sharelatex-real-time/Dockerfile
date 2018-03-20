@@ -11,5 +11,5 @@ RUN sed -i 's/v: update.v, doc: update.doc/v: update.v, doc: update.doc, client_
 
 EXPOSE 3026
 
-CMD ["nodemon", "app.js"]
+CMD ["node", "app.js"]
 

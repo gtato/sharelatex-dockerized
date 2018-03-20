@@ -5,8 +5,8 @@ services:
         #container_name: sharelatex-hello-web
         build: sharelatex-hello-web
         privileged: true
-        #ports:
-        #    - 8181:80
+        ports:
+           - 8181:80
         # networks:
         #     default:
         #         aliases:

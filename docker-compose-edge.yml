@@ -1,0 +1,155 @@
+version: '3.3'
+services:
+    web:
+        command: ["bash", "app.sh"]
+        restart: always
+
+        image: gtato/sharelatex-web
+        build: sharelatex-web
+        # container_name: sharelatex-web
+        depends_on:
+            - redis
+            - mongo
+        privileged: true
+        ports:
+            - 8080:80
+            - 3000:3000
+        # volumes:
+        #     - ~/sharelatex_data/web:/var/lib/mongodb
+        environment:
+            SHARELATEX_APP_NAME: MicroSharedLatex
+            SHARELATEX_SESSION_SECRET: 'secret-please-change'
+            SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
+            SHARELATEX_SITE_URL: http://localhost:8080
+            
+            #these three are unnecessary 
+            SHARELATEX_REAL_TIME_URL: http://real-time:3026
+            SHARELATEX_REDIS_HOST: redis
+            SHARELATEX_DOCUMENT_UPDATER_URL: http://document-updater:3003
+    
+            #centralized things 
+            SHARELATEX_CLSI_URL: http://192.168.56.1:3013
+            SHARELATEX_FILESTORE_URL: http://192.168.56.1:3009
+            SHARELATEX_DOCSTORE_URL: http://192.168.56.1:3016
+            SHARELATEX_SPELLING_URL: http://192.168.56.1:3005
+            SHARELATEX_TAGS_URL: http://192.168.56.1:3012
+            SHARELATEX_NOTIFICATIONS_URL: http://192.168.56.1:3042
+            SHARELATEX_CONTACTS_URL: http://192.168.56.1:3036
+            SHARELATEX_CHAT_URL: http://192.168.56.1:3010
+            SHARELATEX_TRACK_CHANGES_URL: http://192.168.56.1:3015
+            SHARELATEX_MONGO_URL: http://192.168.56.1:3015
+       
+       
+        networks:
+            default:
+                aliases:
+                    - web
+        # expose:
+        #     - 3000
+        # deploy:
+        #     mode: global
+            # endpoint_mode: dnsrr
+      
+    clsi:
+        restart: always
+        image: gtato/sharelatex-clsi
+        build: sharelatex-clsi
+        # container_name: sharelatex-clsi
+        # expose:
+        #     - 3013
+        ports:
+            - 3013:3013
+
+        
+    spelling:
+        restart: always
+        image: gtato/sharelatex-spelling
+        build: sharelatex-spelling
+        # container_name: sharelatex-spelling
+        # expose:
+        #     - 3005
+        ports:
+            - 3005:3005
+        volumes:
+            - ~/sharelatex_data/spelling:/var/lib/mongodb
+
+
+    chat:
+        restart: always
+        image: gtato/sharelatex-chat
+        build: sharelatex-chat
+        # container_name: sharelatex-chat
+        # expose:
+        #     - 3010
+        ports:
+            - 3010:3010
+        networks:
+            default:
+                aliases:
+                    - chat
+        volumes:
+            - ~/sharelatex_data/chat:/var/lib/mongodb
+
+    real-time:
+        restart: always
+        image: gtato/sharelatex-real-time
+        build: sharelatex-real-time
+        # container_name: sharelatex-real-time
+        # expose:
+        #     - 3026
+        ports:
+            - 3026:3026
+        depends_on:
+            - redis
+        networks:
+            default:
+                aliases:
+                    - real-time-core
+        # deploy:
+        #     placement:
+        #         constraints:
+        #             - node.role == manager
+
+
+
+    document-updater:
+        restart: always
+        image: gtato/sharelatex-document-updater
+        build: sharelatex-document-updater
+        # expose:
+        #     - 3003
+        ports:
+            - 3003:3003
+        depends_on:
+            - redis
+        networks:
+            default:
+                aliases:
+                    - document-updater
+        # deploy:
+        #     replicas: 1
+        # volumes:
+        #     - ~/sharelatex_data/document_updater:/var/lib/mongodb
+
+
+    redis:
+        restart: always
+        image: redis
+        # container_name: redis
+        # expose:
+        #     - 6379
+        ports:
+            - 6379:6379
+        # volumes:
+        #     - ~/redis_data:/data
+        networks:
+            default:
+                aliases:
+                    - redis
+        # deploy:
+        #     replicas: 1
+    
+
+networks:
+    default:   
+    

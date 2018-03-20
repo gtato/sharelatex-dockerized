@@ -32,7 +32,7 @@ settings =
 	# 
 	# The following works out of the box with Mongo's default settings:
 	mongo:
-		url : 'mongodb://127.0.0.1/sharelatex'
+		url : process.env["SHARELATEX_MONGO_URL"] or 'mongodb://mongo/sharelatex'
 
 	# Redis is used in ShareLaTeX for high volume queries, like real-time
 	# editing, and session management.

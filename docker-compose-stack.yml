@@ -1,17 +1,24 @@
-version: '3'
+version: '3.3'
 services:
     web:
+        command: ["bash", "app.sh"]
         restart: always
+
         image: gtato/sharelatex-web
         build: sharelatex-web
         # container_name: sharelatex-web
         depends_on:
             - redis
+            - mongo
         privileged: true
         ports:
-            - 8080:80
-        volumes:
-            - ~/sharelatex_data/web:/var/lib/mongodb
+            # - 8080:80
+            - target: 80
+            - published: 8080
+            - protocol: tcp
+            - mode: host
+        # volumes:
+        #     - ~/sharelatex_data/web:/var/lib/mongodb
         environment:
             SHARELATEX_REDIS_HOST: redis
             SHARELATEX_APP_NAME: MicroSharedLatex
@@ -25,6 +32,9 @@ services:
                     - web
         expose:
             - 3000
+        deploy:
+            mode: global
+            # endpoint_mode: dnsrr
       
     clsi:
         restart: always
@@ -138,7 +148,30 @@ services:
         networks:
             default:
                 aliases:
-                    - real-time
+                    - real-time-core
+        # deploy:
+        #     placement:
+        #         constraints:
+        #             - node.role == manager
+
+    # real-time-edge:
+    #     restart: always
+    #     image: gtato/sharelatex-real-time
+    #     build: sharelatex-real-time
+    #     # container_name: sharelatex-real-time
+    #     expose:
+    #         - 3026
+    #     depends_on:
+    #         - redis
+    #     networks:
+    #         default:
+    #             aliases:
+    #                 - real-time-edge
+    #     deploy:
+    #         placement:
+    #             constraints:
+    #                 - node.role == worker
+
 
     document-updater:
         restart: always
@@ -152,17 +185,19 @@ services:
             default:
                 aliases:
                     - document-updater
+        deploy:
+            replicas: 1
         # volumes:
         #     - ~/sharelatex_data/document_updater:/var/lib/mongodb
 
-    # mongo:
-    #     restart: always
-    #     image: mongo
-    #     container_name: mongo
-    #     expose:
-    #         - 27017
-    #     volumes:
-    #         - ~/mongo_data:/data/db
+    mongo:
+        restart: always
+        image: mongo
+        # container_name: mongo
+        expose:
+            - 27017
+        volumes:
+            - ~/mongo_data:/data/db
 
     redis:
         restart: always
@@ -176,8 +211,16 @@ services:
             default:
                 aliases:
                     - redis
+        deploy:
+            replicas: 1
+    
+    # mongo:
+    #     image: mongo:3.4.6
+    #     volumes:
+    #         - ~/mongo_data:/data/db
+    #     expose:
+    #         - 27017
 
-        
 networks:
     default:   
     
