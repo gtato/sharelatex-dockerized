@@ -8,8 +8,15 @@
 #     SHARELATEX_REAL_TIME_URL="http://real-time-edge:3026"
 # fi
 
+[ -z "$SHARELATEX_REAL_TIME_URL" ] && SHARELATEX_REAL_TIME_URL="http://real-time:3026"
+[ -z "$SHARELATEX_REAL_TIME_ALT_URL" ] && SHARELATEX_REAL_TIME_ALT_URL="http://real-time:3026"
+[ -z "$SHARELATEX_WEB_ALT_URL" ] && SHARELATEX_WEB_ALT_URL="http://localhost:8080"
+[ -z "$PID" ] && PID="inexistentproject"
 
 sed -i 's@SHARELATEX_REAL_TIME_URL@'"$SHARELATEX_REAL_TIME_URL"'@g' /etc/nginx/sites-enabled/sharelatex.conf
+sed -i 's@SHARELATEX_REAL_TIME_ALT_URL@'"$SHARELATEX_REAL_TIME_ALT_URL"'@g' /etc/nginx/sites-enabled/sharelatex.conf
+sed -i 's@SHARELATEX_WEB_ALT_URL@'"$SHARELATEX_WEB_ALT_URL"'@g' /etc/nginx/sites-enabled/sharelatex.conf
+sed -i 's@PID@'"$PID"'@g' /etc/nginx/sites-enabled/sharelatex.conf
 
 mongod --config /etc/mongod.conf&
 service nginx start&
