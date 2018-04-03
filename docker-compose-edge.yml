@@ -87,7 +87,6 @@ services:
     track-changes:
         restart: always
         image: gtato/sharelatex-track-changes
-        build: sharelatex-track-changes
         ports:
             - 3015:3015
         depends_on:
