@@ -23,6 +23,9 @@ services:
             SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
             SHARELATEX_SITE_URL: http://localhost:8080
             SHARELATEX_REAL_TIME_URL: http://real-time:3026
+            SHARELATEX_REAL_TIME_ALT_URL: http://192.168.56.100:3026
+            SHARELATEX_WEB_ALT_URL: http://192.168.56.100:8080
+            PID: 5ab106cec2365e043f6923a5 #edge project
         networks:
             default:
                 aliases:
@@ -237,12 +240,17 @@ services:
         # deploy:
         #     replicas: 1
     
-    # mongo:
-    #     image: mongo:3.4.6
-    #     volumes:
-    #         - ~/mongo_data:/data/db
-    #     expose:
-    #         - 27017
+
+    redis-syncer:
+        restart: always
+        image: gtato/sharelatex-redis-syncer
+        build: sharelatex-redis-syncer
+        depends_on:
+            - redis
+        environment:
+            REDIS_HOSTS: '192.168.56.1,192.168.56.100'
+            REDIS_TIMEOUT: 500
+
 
 networks:
     default:   
