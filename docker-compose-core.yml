@@ -21,20 +21,29 @@ services:
             SHARELATEX_APP_NAME: MicroSharedLatex
             SHARELATEX_SESSION_SECRET: 'secret-please-change'
             SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
-            SHARELATEX_SITE_URL: http://localhost:8080
-            SHARELATEX_REAL_TIME_URL: http://real-time:3026
-            SHARELATEX_REAL_TIME_ALT_URL: http://192.168.56.100:3026
-            SHARELATEX_WEB_ALT_URL: http://192.168.56.100:8080
-            PID: 5ab106cec2365e043f6923a5 #edge project
+            SHARELATEX_SITE_URL: http://localhost:8080/
+
+            # KOALA: "http://192.168.56.1:8008/api/get"
+
+            SHARELATEX_SPELLING_URL: "http://192.168.56.1:8008/api/get/sharelatex-spelling"
+            SHARELATEX_TAGS_URL: "http://192.168.56.1:8008/api/get/sharelatex-tags"
+            SHARELATEX_CONTACTS_URL: "http://192.168.56.1:8008/api/get/sharelatex-contacts"
+            SHARELATEX_NOTIFICATIONS_URL: "http://192.168.56.1:8008/api/get/sharelatex-notifications"
+            SHARELATEX_CHAT_URL: "http://192.168.56.1:8008/api/get/sharelatex-chat"
+            SHARELATEX_FILESTORE_URL: "http://192.168.56.1:8008/api/get/sharelatex-filestore"
+            SHARELATEX_DOCSTORE_URL: "http://192.168.56.1:8008/api/get/sharelatex-docstore"
+            SHARELATEX_CLSI_URL: "http://192.168.56.1:8008/api/get/sharelatex-clsi"
+
+            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.1:8008/api/get/sharelatex-document-updater"
+            SHARELATEX_REAL_TIME_URL: "http://192.168.56.1:8008/api/get/sharelatex-real-time"
+            SHARELATEX_TRACK_CHANGES_URL: "http://192.168.56.1:8008/api/get/sharelatex-track-changes"
+
+            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-80"
         networks:
             default:
                 aliases:
                     - web
-        # expose:
-        #     - 3000
-        # deploy:
-        #     mode: global
-            # endpoint_mode: dnsrr
+
       
     clsi:
         restart: always
@@ -43,6 +52,8 @@ services:
         # container_name: sharelatex-clsi
         # expose:
         #     - 3013
+        depends_on:
+            - registrator
         ports:
             - 3013:3013
 
@@ -50,11 +61,10 @@ services:
         restart: always
         image: gtato/sharelatex-filestore
         build: sharelatex-filestore
-        # container_name: sharelatex-filestore
         volumes:
             - ~/sharelatex_data/filestore:/app/data
-        # expose:
-        #     - 3009
+        depends_on:
+            - registrator
         ports:
             - 3009:3009
         
@@ -63,70 +73,62 @@ services:
         restart: always
         image: gtato/sharelatex-docstore
         build: sharelatex-docstore
-        # container_name: sharelatex-docstore
         volumes:
             - ~/sharelatex_data/docstore:/var/lib/mongodb
-        # expose:
-        #     - 3016
         ports:
             - 3016:3016
+        depends_on:
+            - registrator
 
     tags:
         restart: always
         build: sharelatex-tags
         image: gtato/sharelatex-tags
-        # container_name: sharelatex-tags
         volumes:
             - ~/sharelatex_data/tags:/var/lib/mongodb
-        # expose:
-        #     - 3012
         ports:
             - 3012:3012
+        depends_on:
+            - registrator
 
     notifications:
         restart: always
         image: gtato/sharelatex-notifications
         build: sharelatex-notifications
-        # container_name: sharelatex-notifications
         volumes:
             - ~/sharelatex_data/notifications:/var/lib/mongodb
-        # expose:
-        #     - 3042
         ports:
             - 3042:3042
+        depends_on:
+            - registrator
 
     contacts:
         restart: always
         image: gtato/sharelatex-contacts
         build: sharelatex-contacts
-        # container_name: sharelatex-contacts
         volumes:
             - ~/sharelatex_data/contacts:/var/lib/mongodb
-        # expose:
-        #     - 3036
         ports:
             - 3036:3036
+        depends_on:
+            - registrator
         
     spelling:
         restart: always
         image: gtato/sharelatex-spelling
         build: sharelatex-spelling
-        # container_name: sharelatex-spelling
-        # expose:
-        #     - 3005
         ports:
             - 3005:3005
         volumes:
             - ~/sharelatex_data/spelling:/var/lib/mongodb
+        depends_on:
+            - registrator
 
 
     chat:
         restart: always
         image: gtato/sharelatex-chat
         build: sharelatex-chat
-        # container_name: sharelatex-chat
-        # expose:
-        #     - 3010
         ports:
             - 3010:3010
         networks:
@@ -135,14 +137,13 @@ services:
                     - chat
         volumes:
             - ~/sharelatex_data/chat:/var/lib/mongodb
+        depends_on:
+            - registrator
 
     track-changes:
         restart: always
         image: gtato/sharelatex-track-changes
         build: sharelatex-track-changes
-        # container_name: sharelatex-track-changes
-        # expose:
-        #     - 3015
         ports:
             - 3015:3015
         depends_on:
@@ -153,6 +154,10 @@ services:
                     - track-changes
         volumes:
             - ~/sharelatex_data/track_changes:/var/lib/mongodb
+        environment:
+            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.1:8008/api/get/sharelatex-document-updater"
+            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-3000"
+
 
     real-time:
         restart: always
@@ -169,28 +174,9 @@ services:
             default:
                 aliases:
                     - real-time-core
-        # deploy:
-        #     placement:
-        #         constraints:
-        #             - node.role == manager
-
-    # real-time-edge:
-    #     restart: always
-    #     image: gtato/sharelatex-real-time
-    #     build: sharelatex-real-time
-    #     # container_name: sharelatex-real-time
-    #     expose:
-    #         - 3026
-    #     depends_on:
-    #         - redis
-    #     networks:
-    #         default:
-    #             aliases:
-    #                 - real-time-edge
-    #     deploy:
-    #         placement:
-    #             constraints:
-    #                 - node.role == worker
+        environment:
+            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.1:8008/api/get/sharelatex-document-updater"
+            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-3000"
 
 
     document-updater:
@@ -207,17 +193,22 @@ services:
             default:
                 aliases:
                     - document-updater
-        # deploy:
-        #     replicas: 1
-        # volumes:
-        #     - ~/sharelatex_data/document_updater:/var/lib/mongodb
+        environment:
+            SHARELATEX_TRACK_CHANGES_URL: "http://192.168.56.1:8008/api/get/sharelatex-track-changes"
+            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-3000"
+
+    registrator:
+        command: "/bin/registrator -internal=true koala://172.17.0.1:8008"
+        image: gtato/registrator
+        # dockcontainer_name: registrator
+        # depends_on: 
+        #     - koala
+        volumes:
+            - "/var/run/docker.sock:/tmp/docker.sock"
 
     mongo:
         restart: always
         image: mongo
-        # container_name: mongo
-        # expose:
-        #     - 27017
         ports:
             - 27017:27017
         volumes:
@@ -226,9 +217,6 @@ services:
     redis:
         restart: always
         image: redis
-        # container_name: redis
-        # expose:
-        #     - 6379
         ports:
             - 6379:6379
         # volumes:
@@ -237,9 +225,8 @@ services:
             default:
                 aliases:
                     - redis
-        # deploy:
-        #     replicas: 1
-    
+        depends_on:
+            - registrator
 
     redis-syncer:
         restart: always

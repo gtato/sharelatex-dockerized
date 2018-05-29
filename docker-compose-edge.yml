@@ -23,22 +23,28 @@ services:
             SHARELATEX_SITE_URL: http://localhost:8080
             
             #these three are unnecessary 
-            SHARELATEX_REAL_TIME_URL: http://real-time:3026
-            SHARELATEX_REDIS_HOST: redis
-            SHARELATEX_DOCUMENT_UPDATER_URL: http://document-updater:3003
-    
-            #centralized things 
-            SHARELATEX_CLSI_URL: http://192.168.56.1:3013
-            SHARELATEX_FILESTORE_URL: http://192.168.56.1:3009
-            SHARELATEX_DOCSTORE_URL: http://192.168.56.1:3016
-            SHARELATEX_SPELLING_URL: http://192.168.56.1:3005
-            SHARELATEX_TAGS_URL: http://192.168.56.1:3012
-            SHARELATEX_NOTIFICATIONS_URL: http://192.168.56.1:3042
-            SHARELATEX_CONTACTS_URL: http://192.168.56.1:3036
-            SHARELATEX_CHAT_URL: http://192.168.56.1:3010
+            # SHARELATEX_REAL_TIME_URL: http://real-time:3026
+            # SHARELATEX_REDIS_HOST: redis
+            # SHARELATEX_DOCUMENT_UPDATER_URL: http://document-updater:3003
+            # KOALA: "http://192.168.56.100:8008/api/get"
+         
+            SHARELATEX_SPELLING_URL: "http://192.168.56.100:8008/api/get/sharelatex-spelling"
+            SHARELATEX_TAGS_URL: "http://192.168.56.100:8008/api/get/sharelatex-tags"
+            SHARELATEX_CONTACTS_URL: "http://192.168.56.100:8008/api/get/sharelatex-contacts"
+            SHARELATEX_NOTIFICATIONS_URL: "http://192.168.56.100:8008/api/get/sharelatex-notifications"
+            SHARELATEX_CHAT_URL: "http://192.168.56.100:8008/api/get/sharelatex-chat"
+            SHARELATEX_FILESTORE_URL: "http://192.168.56.100:8008/api/get/sharelatex-filestore"
+            SHARELATEX_DOCSTORE_URL: "http://192.168.56.100:8008/api/get/sharelatex-docstore"
+            SHARELATEX_CLSI_URL: "http://192.168.56.100:8008/api/get/sharelatex-clsi"
+
+            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.100:8008/api/get/sharelatex-document-updater"
+            SHARELATEX_REAL_TIME_URL: "http://192.168.56.100:8008/api/get/sharelatex-real-time"
+            SHARELATEX_TRACK_CHANGES_URL: "http://192.168.56.100:8008/api/get/sharelatex-track-changes"
+
+            SHARELATEX_WEB_URL: "http://192.168.56.100:8008/api/get/sharelatex-web-80"
+            
             SHARELATEX_MONGO_URL: mongodb://192.168.56.1/sharelatex
-       
-       
+
         networks:
             default:
                 aliases:
@@ -55,17 +61,17 @@ services:
     #         - 3013:3013
 
         
-    # spelling:
-    #     restart: always
-    #     image: gtato/sharelatex-spelling
-    #     # build: sharelatex-spelling
-    #     # container_name: sharelatex-spelling
-    #     # expose:
-    #     #     - 3005
-    #     ports:
-    #         - 3005:3005
-    #     volumes:
-    #         - ~/sharelatex_data/spelling:/var/lib/mongodb
+    spelling:
+        restart: always
+        image: gtato/sharelatex-spelling
+        # build: sharelatex-spelling
+        # container_name: sharelatex-spelling
+        # expose:
+        #     - 3005
+        ports:
+            - 3005:3005
+        volumes:
+            - ~/sharelatex_data/spelling:/var/lib/mongodb
 
 
     # chat:
@@ -97,6 +103,10 @@ services:
                     - track-changes
         volumes:
             - ~/sharelatex_data/track_changes:/var/lib/mongodb
+        environment:
+            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.100:8008/api/get/sharelatex-document-updater"
+            SHARELATEX_WEB_URL: "http://192.168.56.100:8008/api/get/sharelatex-web-3000"
+
 
     real-time:
         restart: always
@@ -109,6 +119,10 @@ services:
             default:
                 aliases:
                     - real-time-core
+        environment:
+            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.100:8008/api/get/sharelatex-document-updater"
+            SHARELATEX_WEB_URL: "http://192.168.56.100:8008/api/get/sharelatex-web-3000"
+
 
     document-updater:
         restart: always
@@ -121,6 +135,9 @@ services:
             default:
                 aliases:
                     - document-updater
+    environment:
+            SHARELATEX_TRACK_CHANGES_URL: "http://192.168.56.100:8008/api/get/sharelatex-track-changes"
+            SHARELATEX_WEB_URL: "http://192.168.56.100:8008/api/get/sharelatex-web-3000"
 
     redis:
         restart: always

@@ -1,5 +1,5 @@
 # Delay the outgoing traffic from sharelatex-web by 45 ms
-docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.18.0.1  delay --time 45 sharelatex-web
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.18.0.1  delay --time 50 sharelatex-web
 
 # Isolate web, redis, document-updater and realtime by 45 ms
 docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.18.0.7,172.18.0.9,172.18.0.3,172.18.0.12,172.18.0.4,172.18.0.6,172.18.0.10,172.18.0.14,172.18.0.11  delay --time 45 sharelatex-web sharelatex-document-updater sharelatex-real-time redis
@@ -23,3 +23,20 @@ docker-compose up -d --no-deps --build <service_name>
 
 # a command for printing method positions
 i=1; for j in `head -1 cloud.30mins.10users-5321`; do echo $i "${j//\\/}"; ((i++)); done;
+
+
+
+
+
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.20.0.1  delay --time 50 sharelatexdocerized_web_1
+
+
+
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.20.0.1  delay --time 5 --jitter 1 sharelatexdocerized_web_1
+
+
+docker run -it --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 1h30m --target 172.20.0.16,172.20.0.9 delay --time 50 sharelatexdocerized_tags_1 sharelatexdocerized_docstore_1 sharelatexdocerized_notifications_1 sharelatexdocerized_contacts_1 sharelatexdocerized_mongo_1 sharelatexdocerized_filestore_1
+
+
+
+curl -X GET core:8080/project -s -o /dev/null   -w %{time_total}
