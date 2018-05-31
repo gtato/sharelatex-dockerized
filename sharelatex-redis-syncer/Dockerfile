@@ -1,8 +1,11 @@
 FROM gtato/sharelatex-base:latest
 
-RUN apt install -y wget tcl python-pip redis-tools ;\
-    pip install redis
+RUN npm install express redis;\
+    npm -g install node-inspector
+
+
+EXPOSE 8005
         
-ADD syncer.py /
-CMD ["python", "-u", "syncer.py"]
+ADD syncer.js /
+CMD ["node", "syncer.js"]
 

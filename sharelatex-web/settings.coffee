@@ -40,7 +40,7 @@ settings =
 	# The following config will work with Redis's default settings:
 	redis:
 		web: redisConfig =
-			host: process.env["SHARELATEX_REDIS_HOST"] or "dockerhost"
+			host: process.env["SHARELATEX_REDIS_HOST"] or "redis"
 			port: process.env["SHARELATEX_REDIS_PORT"] or "6379"
 			password: process.env["SHARELATEX_REDIS_PASS"] or ""
 

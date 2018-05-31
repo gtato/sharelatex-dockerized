@@ -25,20 +25,20 @@ services:
 
             # KOALA: "http://192.168.56.1:8008/api/get"
 
-            SHARELATEX_SPELLING_URL: "http://192.168.56.1:8008/api/get/sharelatex-spelling"
-            SHARELATEX_TAGS_URL: "http://192.168.56.1:8008/api/get/sharelatex-tags"
-            SHARELATEX_CONTACTS_URL: "http://192.168.56.1:8008/api/get/sharelatex-contacts"
-            SHARELATEX_NOTIFICATIONS_URL: "http://192.168.56.1:8008/api/get/sharelatex-notifications"
-            SHARELATEX_CHAT_URL: "http://192.168.56.1:8008/api/get/sharelatex-chat"
-            SHARELATEX_FILESTORE_URL: "http://192.168.56.1:8008/api/get/sharelatex-filestore"
-            SHARELATEX_DOCSTORE_URL: "http://192.168.56.1:8008/api/get/sharelatex-docstore"
-            SHARELATEX_CLSI_URL: "http://192.168.56.1:8008/api/get/sharelatex-clsi"
+            SHARELATEX_SPELLING_URL: "${KOALA_API}/sharelatex-spelling"
+            SHARELATEX_TAGS_URL: "${KOALA_API}/sharelatex-tags"
+            SHARELATEX_CONTACTS_URL: "${KOALA_API}/sharelatex-contacts"
+            SHARELATEX_NOTIFICATIONS_URL: "${KOALA_API}/sharelatex-notifications"
+            SHARELATEX_CHAT_URL: "${KOALA_API}/sharelatex-chat"
+            SHARELATEX_FILESTORE_URL: "${KOALA_API}/sharelatex-filestore"
+            SHARELATEX_DOCSTORE_URL: "${KOALA_API}/sharelatex-docstore"
+            SHARELATEX_CLSI_URL: "${KOALA_API}/sharelatex-clsi"
 
-            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.1:8008/api/get/sharelatex-document-updater"
-            SHARELATEX_REAL_TIME_URL: "http://192.168.56.1:8008/api/get/sharelatex-real-time"
-            SHARELATEX_TRACK_CHANGES_URL: "http://192.168.56.1:8008/api/get/sharelatex-track-changes"
+            SHARELATEX_DOCUMENT_UPDATER_URL: "${KOALA_API}/sharelatex-document-updater"
+            SHARELATEX_REAL_TIME_URL: "${KOALA_API}/sharelatex-real-time"
+            SHARELATEX_TRACK_CHANGES_URL: "${KOALA_API}/sharelatex-track-changes"
 
-            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-80"
+            SHARELATEX_WEB_URL: "${KOALA_API}/sharelatex-web-80"
         networks:
             default:
                 aliases:
@@ -155,8 +155,8 @@ services:
         volumes:
             - ~/sharelatex_data/track_changes:/var/lib/mongodb
         environment:
-            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.1:8008/api/get/sharelatex-document-updater"
-            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-3000"
+            SHARELATEX_DOCUMENT_UPDATER_URL: "${KOALA_API}/sharelatex-document-updater"
+            SHARELATEX_WEB_URL: "${KOALA_API}/sharelatex-web-3000"
 
 
     real-time:
@@ -175,8 +175,8 @@ services:
                 aliases:
                     - real-time-core
         environment:
-            SHARELATEX_DOCUMENT_UPDATER_URL: "http://192.168.56.1:8008/api/get/sharelatex-document-updater"
-            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-3000"
+            SHARELATEX_DOCUMENT_UPDATER_URL: "${KOALA_API}/sharelatex-document-updater"
+            SHARELATEX_WEB_URL: "${KOALA_API}/sharelatex-web-3000"
 
 
     document-updater:
@@ -194,17 +194,39 @@ services:
                 aliases:
                     - document-updater
         environment:
-            SHARELATEX_TRACK_CHANGES_URL: "http://192.168.56.1:8008/api/get/sharelatex-track-changes"
-            SHARELATEX_WEB_URL: "http://192.168.56.1:8008/api/get/sharelatex-web-3000"
+            SHARELATEX_TRACK_CHANGES_URL: "${KOALA_API}/sharelatex-track-changes"
+            SHARELATEX_WEB_URL: "${KOALA_API}/sharelatex-web-3000"
 
     registrator:
         command: "/bin/registrator -internal=true koala://172.17.0.1:8008"
         image: gtato/registrator
         # dockcontainer_name: registrator
-        # depends_on: 
-        #     - koala
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock"
+        depends_on: 
+            - koala
+
+    koala:
+        image: gtato/koala
+        build: ../koala-discovery/koala
+        privileged: true
+        ports:
+            - 8008:8008
+            - 8007:8007
+        # volumes:
+        #     - ./koala:/koala
+        networks:
+            default:
+                aliases:
+                    - koala
+        environment:
+            # - KOALA_DC
+           KOALA_BOOT: "1"
+           KOALA_BOOT_URL: "http://${CORE_IP}:8007"
+           SYNCER_URL: "http://${CORE_IP}:8005"
+           KOALA_URL: "${CORE_IP}:8008"
+        depends_on:
+            - redis-syncer
 
     mongo:
         restart: always
@@ -232,11 +254,11 @@ services:
         restart: always
         image: gtato/sharelatex-redis-syncer
         build: sharelatex-redis-syncer
-        depends_on:
-            - redis
-        environment:
-            REDIS_HOSTS: '192.168.56.1,192.168.56.100'
-            REDIS_TIMEOUT: 500
+        ports:
+            - 8005:8005
+        # environment:
+        #     REDIS_HOSTS: '192.168.56.1,192.168.56.100'
+        #     REDIS_TIMEOUT: 500
 
 
 networks:
