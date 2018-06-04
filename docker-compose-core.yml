@@ -222,8 +222,8 @@ services:
         environment:
             # - KOALA_DC
            KOALA_BOOT: "1"
+           SYNCER_URL: "http://${CORE_IP}:8006"
            KOALA_BOOT_URL: "http://${CORE_IP}:8007"
-           SYNCER_URL: "http://${CORE_IP}:8005"
            KOALA_URL: "${CORE_IP}:8008"
         depends_on:
             - redis-syncer
@@ -255,7 +255,7 @@ services:
         image: gtato/sharelatex-redis-syncer
         build: sharelatex-redis-syncer
         ports:
-            - 8005:8005
+            - 8006:8006
         # environment:
         #     REDIS_HOSTS: '192.168.56.1,192.168.56.100'
         #     REDIS_TIMEOUT: 500

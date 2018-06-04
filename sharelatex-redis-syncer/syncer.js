@@ -143,7 +143,7 @@ app.get('/*', function (req, res) {
 })
 
 
-port = 8005
+port = 8006
 app.listen(port, () => console.log('Syncer listening on port:' + port))
 
 

@@ -140,6 +140,15 @@ services:
             SHARELATEX_TRACK_CHANGES_URL: "${KOALA_API}/sharelatex-track-changes"
             SHARELATEX_WEB_URL: "${KOALA_API}/sharelatex-web-3000"
     
+
+    registrator:
+        command: "/bin/registrator -internal=true koala://172.17.0.1:8008"
+        image: gtato/registrator
+        # dockcontainer_name: registrator
+        volumes:
+            - "/var/run/docker.sock:/tmp/docker.sock"
+        depends_on: 
+            - koala
     koala:
         image: gtato/koala
         privileged: true
@@ -154,19 +163,9 @@ services:
                     - koala
         environment:
             # - KOALA_DC
+           SYNCER_URL: "http://${CORE_IP}:8006"
            KOALA_BOOT_URL: "http://${CORE_IP}:8007"
-           SYNCER_URL: "http://${CORE_IP}:8005"
            KOALA_URL: "${EDGE_IP}:8008"
-
-    registrator:
-        command: "/bin/registrator -internal=true koala://172.17.0.1:8008"
-        image: gtato/registrator
-        # dockcontainer_name: registrator
-        depends_on: 
-            - koala
-        volumes:
-            - "/var/run/docker.sock:/tmp/docker.sock"
-
 
     redis:
         restart: always
