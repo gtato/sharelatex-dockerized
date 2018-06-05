@@ -4,7 +4,7 @@ RUN npm install express redis;\
     npm -g install node-inspector
 
 
-EXPOSE 8005
+EXPOSE 8006
         
 ADD syncer.js /
 CMD ["node", "syncer.js"]

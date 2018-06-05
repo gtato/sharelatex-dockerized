@@ -149,14 +149,13 @@ services:
             - "/var/run/docker.sock:/tmp/docker.sock"
         depends_on: 
             - koala
+    
     koala:
         image: gtato/koala
         privileged: true
         ports:
             - 8008:8008
             - 8007:8007
-        # volumes:
-        #     - ./koala:/koala
         networks:
             default:
                 aliases:

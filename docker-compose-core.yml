@@ -204,6 +204,7 @@ services:
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock"
         depends_on: 
+            # - redis-syncer
             - koala
 
     koala:
@@ -213,8 +214,6 @@ services:
         ports:
             - 8008:8008
             - 8007:8007
-        # volumes:
-        #     - ./koala:/koala
         networks:
             default:
                 aliases:
