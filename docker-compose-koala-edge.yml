@@ -22,11 +22,8 @@ services:
             SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
             SHARELATEX_SITE_URL: http://localhost:8080
             SHARELATEX_REDIS_HOST: redis
-            
-            #these three are unnecessary 
-            # SHARELATEX_REAL_TIME_URL: http://real-time:3026
-            # SHARELATEX_DOCUMENT_UPDATER_URL: http://document-updater:3003
-            # KOALA: "http://192.168.56.100:8008/api/get"
+            NGINX_CONFIG: "KOALA"
+
          
             SHARELATEX_SPELLING_URL: "${KOALA_API}/sharelatex-spelling"
             SHARELATEX_TAGS_URL: "${KOALA_API}/sharelatex-tags"
@@ -144,7 +141,6 @@ services:
     registrator:
         command: "/bin/registrator -internal=true koala://172.17.0.1:8008"
         image: gtato/registrator
-        # dockcontainer_name: registrator
         volumes:
             - "/var/run/docker.sock:/tmp/docker.sock"
         depends_on: 

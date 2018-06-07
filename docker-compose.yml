@@ -1,108 +1,107 @@
-version: '3'
+version: '3.3'
 services:
     web:
+        command: ["bash", "app.sh"]
         restart: always
+
         image: gtato/sharelatex-web
         build: sharelatex-web
         # container_name: sharelatex-web
         depends_on:
             - redis
+            - mongo
         privileged: true
         ports:
             - 8080:80
-        volumes:
-            - ~/sharelatex_data/web:/var/lib/mongodb
+            - 3000:3000
+        # volumes:
+        #     - ~/sharelatex_data/web:/var/lib/mongodb
         environment:
             SHARELATEX_REDIS_HOST: redis
             SHARELATEX_APP_NAME: MicroSharedLatex
             SHARELATEX_SESSION_SECRET: 'secret-please-change'
             SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
-            SHARELATEX_SITE_URL: http://localhost:8080
-            SHARELATEX_REAL_TIME_URL: http://real-time:3026
+            SHARELATEX_SITE_URL: http://localhost:8080/
+            SHARELATEX_REAL_TIME_URL: "http://real-time:3026" 
         networks:
             default:
                 aliases:
                     - web
-        expose:
-            - 3000
+
       
     clsi:
         restart: always
         image: gtato/sharelatex-clsi
         build: sharelatex-clsi
         # container_name: sharelatex-clsi
-        expose:
-            - 3013
+        # expose:
+        #     - 3013
+        ports:
+            - 3013:3013
 
     filestore:
         restart: always
         image: gtato/sharelatex-filestore
         build: sharelatex-filestore
-        # container_name: sharelatex-filestore
         volumes:
             - ~/sharelatex_data/filestore:/app/data
-        expose:
-            - 3009
+        ports:
+            - 3009:3009
         
 
     docstore:
         restart: always
         image: gtato/sharelatex-docstore
         build: sharelatex-docstore
-        # container_name: sharelatex-docstore
         volumes:
             - ~/sharelatex_data/docstore:/var/lib/mongodb
-        expose:
-            - 3016
+        ports:
+            - 3016:3016
 
     tags:
         restart: always
         build: sharelatex-tags
         image: gtato/sharelatex-tags
-        # container_name: sharelatex-tags
         volumes:
             - ~/sharelatex_data/tags:/var/lib/mongodb
-        expose:
-            - 3012
+        ports:
+            - 3012:3012
+
 
     notifications:
         restart: always
         image: gtato/sharelatex-notifications
         build: sharelatex-notifications
-        # container_name: sharelatex-notifications
         volumes:
             - ~/sharelatex_data/notifications:/var/lib/mongodb
-        expose:
-            - 3042
+        ports:
+            - 3042:3042
 
     contacts:
         restart: always
         image: gtato/sharelatex-contacts
         build: sharelatex-contacts
-        # container_name: sharelatex-contacts
         volumes:
             - ~/sharelatex_data/contacts:/var/lib/mongodb
-        expose:
-            - 3036
+        ports:
+            - 3036:3036
         
     spelling:
         restart: always
         image: gtato/sharelatex-spelling
         build: sharelatex-spelling
-        # container_name: sharelatex-spelling
-        expose:
-            - 3005
+        ports:
+            - 3005:3005
         volumes:
             - ~/sharelatex_data/spelling:/var/lib/mongodb
-
+  
 
     chat:
         restart: always
         image: gtato/sharelatex-chat
         build: sharelatex-chat
-        # container_name: sharelatex-chat
-        expose:
-            - 3010
+        ports:
+            - 3010:3010
         networks:
             default:
                 aliases:
@@ -114,9 +113,8 @@ services:
         restart: always
         image: gtato/sharelatex-track-changes
         build: sharelatex-track-changes
-        # container_name: sharelatex-track-changes
-        expose:
-            - 3015
+        ports:
+            - 3015:3015
         depends_on:
             - redis
         networks:
@@ -126,13 +124,16 @@ services:
         volumes:
             - ~/sharelatex_data/track_changes:/var/lib/mongodb
 
+
     real-time:
         restart: always
         image: gtato/sharelatex-real-time
         build: sharelatex-real-time
         # container_name: sharelatex-real-time
-        expose:
-            - 3026
+        # expose:
+        #     - 3026
+        ports:
+            - 3026:3026
         depends_on:
             - redis
         networks:
@@ -144,32 +145,30 @@ services:
         restart: always
         image: gtato/sharelatex-document-updater
         build: sharelatex-document-updater
-        expose:
-            - 3003
+        # expose:
+        #     - 3003
+        ports:
+            - 3003:3003
         depends_on:
             - redis
         networks:
             default:
                 aliases:
                     - document-updater
-        # volumes:
-        #     - ~/sharelatex_data/document_updater:/var/lib/mongodb
 
-    # mongo:
-    #     restart: always
-    #     image: mongo
-    #     container_name: mongo
-    #     expose:
-    #         - 27017
-    #     volumes:
-    #         - ~/mongo_data:/data/db
+    mongo:
+        restart: always
+        image: mongo
+        ports:
+            - 27017:27017
+        volumes:
+            - ~/mongo_data:/data/db
 
     redis:
         restart: always
         image: redis
-        # container_name: redis
-        expose:
-            - 6379
+        ports:
+            - 6379:6379
         # volumes:
         #     - ~/redis_data:/data
         networks:
@@ -177,16 +176,7 @@ services:
                 aliases:
                     - redis
 
-        
 networks:
     default:   
     
-# nginx-proxy:
-#     image: jwilder/nginx-proxy
-#     container_name: nginx-proxy
-#     ports:
-#       #- "80:80"
-#       - "443:443"
-#     volumes:
-#       - /var/run/docker.sock:/tmp/docker.sock:ro
-#       - /home/sharelatex/tmp:/etc/nginx/certs
+

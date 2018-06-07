@@ -23,7 +23,7 @@ RUN grunt compile:minify ;\
     mkdir -p /var/log/sharelatex/
 
 ADD nginx/nginx.conf /etc/nginx/nginx.conf
-ADD nginx/sharelatex.conf /etc/nginx/sites-enabled/sharelatex.conf
+ADD nginx/*.conf /app/
 ADD app.sh /app/
 
 EXPOSE 80
