@@ -5,7 +5,7 @@ services:
         restart: always
 
         image: gtato/sharelatex-web
-        build: sharelatex-web
+        #build: sharelatex-web
         # container_name: sharelatex-web
         depends_on:
             - redis
@@ -32,7 +32,7 @@ services:
     clsi:
         restart: always
         image: gtato/sharelatex-clsi
-        build: sharelatex-clsi
+        #build: sharelatex-clsi
         # container_name: sharelatex-clsi
         # expose:
         #     - 3013
@@ -42,7 +42,7 @@ services:
     filestore:
         restart: always
         image: gtato/sharelatex-filestore
-        build: sharelatex-filestore
+        #build: sharelatex-filestore
         volumes:
             - ~/sharelatex_data/filestore:/app/data
         ports:
@@ -52,7 +52,7 @@ services:
     docstore:
         restart: always
         image: gtato/sharelatex-docstore
-        build: sharelatex-docstore
+        #build: sharelatex-docstore
         volumes:
             - ~/sharelatex_data/docstore:/var/lib/mongodb
         ports:
@@ -60,7 +60,7 @@ services:
 
     tags:
         restart: always
-        build: sharelatex-tags
+        #build: sharelatex-tags
         image: gtato/sharelatex-tags
         volumes:
             - ~/sharelatex_data/tags:/var/lib/mongodb
@@ -71,7 +71,7 @@ services:
     notifications:
         restart: always
         image: gtato/sharelatex-notifications
-        build: sharelatex-notifications
+        #build: sharelatex-notifications
         volumes:
             - ~/sharelatex_data/notifications:/var/lib/mongodb
         ports:
@@ -80,7 +80,7 @@ services:
     contacts:
         restart: always
         image: gtato/sharelatex-contacts
-        build: sharelatex-contacts
+        #build: sharelatex-contacts
         volumes:
             - ~/sharelatex_data/contacts:/var/lib/mongodb
         ports:
@@ -89,7 +89,7 @@ services:
     spelling:
         restart: always
         image: gtato/sharelatex-spelling
-        build: sharelatex-spelling
+        #build: sharelatex-spelling
         ports:
             - 3005:3005
         volumes:
@@ -99,7 +99,7 @@ services:
     chat:
         restart: always
         image: gtato/sharelatex-chat
-        build: sharelatex-chat
+        #build: sharelatex-chat
         ports:
             - 3010:3010
         networks:
@@ -112,7 +112,7 @@ services:
     track-changes:
         restart: always
         image: gtato/sharelatex-track-changes
-        build: sharelatex-track-changes
+        #build: sharelatex-track-changes
         ports:
             - 3015:3015
         depends_on:
@@ -128,7 +128,7 @@ services:
     real-time:
         restart: always
         image: gtato/sharelatex-real-time
-        build: sharelatex-real-time
+        #build: sharelatex-real-time
         # container_name: sharelatex-real-time
         # expose:
         #     - 3026
@@ -144,7 +144,7 @@ services:
     document-updater:
         restart: always
         image: gtato/sharelatex-document-updater
-        build: sharelatex-document-updater
+        #build: sharelatex-document-updater
         # expose:
         #     - 3003
         ports:
