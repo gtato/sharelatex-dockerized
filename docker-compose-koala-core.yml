@@ -253,7 +253,7 @@ services:
     redis-syncer:
         restart: always
         image: gtato/sharelatex-redis-syncer
-        build: sharelatex-redis-syncer
+        #build: sharelatex-redis-syncer
         ports:
             - 8006:8006
         # environment:
