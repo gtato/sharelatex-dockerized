@@ -39,7 +39,7 @@ services:
             SHARELATEX_TRACK_CHANGES_URL: "${KOALA_API}/sharelatex-track-changes"
 
             SHARELATEX_WEB_URL: "${KOALA_API}/sharelatex-web-80"
-            SHARELATEX_MONGO_URL: mongodb://192.168.56.1/sharelatex
+            SHARELATEX_MONGO_URL: mongodb://${CORE_IP}/sharelatex
 
         networks:
             default:

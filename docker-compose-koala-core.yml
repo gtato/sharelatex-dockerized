@@ -210,7 +210,7 @@ services:
 
     koala:
         image: gtato/koala
-        #build: ../koala-discovery/koala
+        # build: ../koala-discovery/koala
         privileged: true
         ports:
             - 8008:8008
