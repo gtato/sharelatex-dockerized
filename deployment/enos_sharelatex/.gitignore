@@ -1,13 +1,14 @@
 # Enoslib
 /Vagrantfile
-/enos_*/
+/enos_20*/
 /ansible/hosts
 /current
 /test_case_1
 # Don't trace any yaml/yml in the root dir
 # default conf.yaml would need to be force added
 # or add an exception here
-/*.yaml
+#/*.yaml
+.travis.yml
 
 # OS-specific
 .DS_Store

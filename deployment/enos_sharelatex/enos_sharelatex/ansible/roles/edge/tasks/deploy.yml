@@ -1,0 +1,10 @@
+
+---
+- name: Start Sharelatex in the edge
+  command: docker-compose -f docker-compose-koala-edge.yml up -d
+  args:                                                                     
+        chdir: /opt/sharelatex-dockerized/
+  environment:
+        EDGE_IP: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"  
+        CORE_IP: "{{ hostvars[groups['core'][0]]['ansible_' + n1]['ipv4']['address'] }}"
+

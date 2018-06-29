@@ -1,0 +1,2 @@
+- name: Stop Pumba
+  command: docker stop pumba

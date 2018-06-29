@@ -1,0 +1,24 @@
+---
+- name: This is a pre-generated playbook
+  # Roles defined in the resource section of the configuration file can be used
+  # here
+  hosts: all
+  roles:
+    - docker 
+    - common
+    
+    
+- name: Configure core server
+  hosts: core
+  roles:
+    - core
+
+- name: Configure edge server
+  hosts: edge
+  roles:
+    - edge
+
+- name: Start pumba
+  hosts: all
+  roles:
+    - pumba

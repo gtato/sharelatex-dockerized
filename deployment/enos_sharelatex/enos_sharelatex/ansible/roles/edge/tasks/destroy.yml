@@ -1,0 +1,4 @@
+- name: Stop Sharelatex in the edge
+  command: docker-compose -f docker-compose-koala-edge.yml down
+  args:                                                                     
+        chdir: /opt/sharelatex-dockerized/

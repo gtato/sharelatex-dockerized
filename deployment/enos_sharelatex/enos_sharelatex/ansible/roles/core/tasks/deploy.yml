@@ -1,0 +1,28 @@
+
+---
+- name: Start Sharelatex in the core
+  command: docker-compose -f docker-compose-koala-core.yml up -d
+  args:                                                                     
+        chdir: /opt/sharelatex-dockerized/ 
+  environment:
+        CORE_IP: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"
+
+
+
+- name: Run a little check to see if everything started 
+  command: python check.py
+  args:                                                                     
+        chdir: /opt/sharelatex-dockerized/ 
+
+
+  
+# - name: Create an admin account 
+#   command: docker exec sharelatex-dockerized_web_1 bash -c 'grunt user:create-admin --email admin@sharelatex.dev' 
+#   register: admintoken
+
+# - debug: 
+#     msg: "{{ admintoken.stdout }}"
+
+# - name: Create some other user accounts (for locust)
+#   command: docker exec sharelatex-dockerized_web_1 bash -c 'grunt user:seed --nr 5 --uname locust --email sharelatex.dev --password locust' 
+#   ignore_errors: yes

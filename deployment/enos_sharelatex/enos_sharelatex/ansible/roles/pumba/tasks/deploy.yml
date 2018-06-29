@@ -1,0 +1,9 @@
+
+- name: Check pumba
+  command: bash -c "docker ps | grep -c 'pumba'"  
+  ignore_errors: true
+  register: pumba_running
+
+- name: Run pumba 
+  command: docker run --name pumba -d --rm -v /var/run/docker.sock:/var/run/docker.sock gaiaadm/pumba pumba netem --duration 24h30m --target 172.18.0.1  delay --time 5 sharelatex-dockerized_web_1
+  when: pumba_running.rc

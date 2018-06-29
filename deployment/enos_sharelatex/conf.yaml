@@ -1,0 +1,39 @@
+---
+vagrant:
+  backend: virtualbox
+  resources:
+    machines:
+      - role: core
+        flavor: small
+        number: 1
+        networks: [n1]
+      - role: edge
+        flavor: small
+        number: 1
+        networks: [n1]
+
+traffic:
+  enable: True
+  default_delay: 10ms
+  default_rate: 10gbit
+  groups: ["core", "edge"]
+
+
+# g5k:
+#   resources:
+#     machines:
+#       - role: control
+#         cluster: paravance
+#         nodes: 1
+#         primary_network: n1
+#         secondary_networks: []
+#       - roles: [control, compute]
+#         cluster: parasilo
+#         nodes: 1
+#         primary_network: n1
+#         secondary_networks: []
+#     networks:
+#       - id: n1
+#         type: prod
+#         role: my_network
+#         site: rennes

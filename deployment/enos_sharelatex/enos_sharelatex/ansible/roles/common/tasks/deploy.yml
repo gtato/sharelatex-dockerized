@@ -1,0 +1,22 @@
+- name: Deploy tasks
+  debug:
+    msg: "Let's make enos sharelatex awesome !"
+
+
+- name: Install utilities
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - git
+
+- name: Download dockerized sharelatex
+  git: >
+      repo=https://github.com/gtato/sharelatex-dockerized.git
+      dest=/opt/sharelatex-dockerized
+
+
+- name: Download Locust load generator
+  git: >
+      repo=https://github.com/gtato/sharelatex-loadgenerator.git
+      dest=/opt/sharelatex-loadgenerator
+

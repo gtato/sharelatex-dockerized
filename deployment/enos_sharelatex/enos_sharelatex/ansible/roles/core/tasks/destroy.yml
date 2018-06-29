@@ -1,0 +1,6 @@
+- name: Stop Sharelatex in core
+  command: docker-compose -f docker-compose-koala-core.yml down
+  args:                                                                     
+        chdir: /opt/sharelatex-dockerized/ 
+
+
