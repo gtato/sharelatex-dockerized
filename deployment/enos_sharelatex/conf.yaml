@@ -14,7 +14,7 @@ vagrant:
 
 traffic:
   enable: True
-  default_delay: 10ms
+  default_delay: 25ms
   default_rate: 10gbit
   groups: ["core", "edge"]
 

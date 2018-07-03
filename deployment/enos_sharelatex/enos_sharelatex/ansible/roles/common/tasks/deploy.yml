@@ -8,6 +8,9 @@
   with_items:
     - vim
     - git
+    - python-pip 
+    - python-dev 
+    - build-essential
 
 - name: Download dockerized sharelatex
   git: >
@@ -19,4 +22,11 @@
   git: >
       repo=https://github.com/gtato/sharelatex-loadgenerator.git
       dest=/opt/sharelatex-loadgenerator
+      force=yes
+
+
+- name: Install load generator requirements
+  pip:
+    requirements: /opt/sharelatex-loadgenerator/requirements.txt
+
 

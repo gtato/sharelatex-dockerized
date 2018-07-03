@@ -19,6 +19,6 @@
     - edge
 
 - name: Start pumba
-  hosts: all
+  hosts: edge
   roles:
     - pumba

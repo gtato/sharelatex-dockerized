@@ -24,5 +24,5 @@
 #     msg: "{{ admintoken.stdout }}"
 
 # - name: Create some other user accounts (for locust)
-#   command: docker exec sharelatex-dockerized_web_1 bash -c 'grunt user:seed --nr 5 --uname locust --email sharelatex.dev --password locust' 
+#   command: docker exec sharelatex-dockerized_web_1 bash -c 'grunt user:seed --nr 10 --uname locust --email sharelatex.dev --password locust' 
 #   ignore_errors: yes
