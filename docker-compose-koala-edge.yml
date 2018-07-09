@@ -46,15 +46,15 @@ services:
                 aliases:
                     - web
       
-    # clsi:
-    #     restart: always
-    #     image: gtato/sharelatex-clsi
-    #     # build: sharelatex-clsi
-    #     # container_name: sharelatex-clsi
-    #     # expose:
-    #     #     - 3013
-    #     ports:
-    #         - 3013:3013
+    clsi:
+        restart: always
+        image: gtato/sharelatex-clsi
+        # build: sharelatex-clsi
+        # container_name: sharelatex-clsi
+        # expose:
+        #     - 3013
+        ports:
+            - 3013:3013
 
         
     spelling:
@@ -72,21 +72,21 @@ services:
             - ~/sharelatex_data/spelling:/var/lib/mongodb
 
 
-    # chat:
-    #     restart: always
-    #     image: gtato/sharelatex-chat
-    #     # build: sharelatex-chat
-    #     # container_name: sharelatex-chat
-    #     # expose:
-    #     #     - 3010
-    #     ports:
-    #         - 3010:3010
-    #     networks:
-    #         default:
-    #             aliases:
-    #                 - chat
-    #     volumes:
-    #         - ~/sharelatex_data/chat:/var/lib/mongodb
+    chat:
+        restart: always
+        image: gtato/sharelatex-chat
+        # build: sharelatex-chat
+        # container_name: sharelatex-chat
+        # expose:
+        #     - 3010
+        ports:
+            - 3010:3010
+        networks:
+            default:
+                aliases:
+                    - chat
+        volumes:
+            - ~/sharelatex_data/chat:/var/lib/mongodb
 
     track-changes:
         restart: always
