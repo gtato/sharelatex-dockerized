@@ -1,5 +1,6 @@
 
 ---
+
 - name: Start Sharelatex in the core
   command: docker-compose -f docker-compose-koala-core.yml up -d
   args:                                                                     

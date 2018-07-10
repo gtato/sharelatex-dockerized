@@ -16,6 +16,14 @@
   git: >
       repo=https://github.com/gtato/sharelatex-dockerized.git
       dest=/opt/sharelatex-dockerized
+      force=yes
+
+
+- name: Update core IP in environment file 
+  replace:
+    path: /opt/sharelatex-dockerized/.env 
+    regexp: "core_ip"
+    replace: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"
 
 
 - name: Download Locust load generator

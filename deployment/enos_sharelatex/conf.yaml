@@ -27,6 +27,7 @@ traffic:
   default_delay: 25ms
   default_rate: 10gbit
   groups: ["core", "edge1", "edge2" ]
+  # groups: ["core", "edge1" ]
   constraints:
     - src: edge1
       dst: edge2
