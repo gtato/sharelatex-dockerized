@@ -1,5 +1,12 @@
 
 ---
+- name: Update edge IP in environment file 
+  replace:
+    path: /opt/sharelatex-dockerized/.env 
+    regexp: "edge_ip"
+    replace: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"
+
+
 - name: Start Sharelatex in the edge
   command: docker-compose -f docker-compose-koala-edge.yml up -d
   args:                                                                     

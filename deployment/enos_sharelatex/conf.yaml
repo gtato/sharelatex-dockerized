@@ -4,7 +4,7 @@ vagrant:
   resources:
     machines:
       - role: core
-        flavor: small
+        flavor: medium
         number: 1
         networks: [n1]
       

@@ -91,20 +91,25 @@ function initalSync(rc, keys, vals){
   console.log('%s connected successfully', rc.address);
 }
 
-
+last_set = ''
+last_del = ''
 function onKeyUpdated(rc, pattern, channel, message){
    key = channel.split('__:')[1]
    if (message == 'set'){
+      last_set = key
       readc = redis.createClient('redis://'+rc.address);
       readc.get(key, function(err, reply){onSetKey(rc, key, err, reply)});
    }
-   if (message == 'del')
+   if (message == 'del'){
+      last_del = key
       onDelKey(rc, key)
+   }
 }
 
 
-function onSetKey(crc, key, err, reply){
+function onSetKey(crc, ckey, err, reply){
   cval = reply
+  key = last_set //ckey gets confused 
   if(key in sessions && sessions[key] == cval) return 
   sessions[key]=cval
   for(rcaddress in redisClients){
@@ -115,12 +120,14 @@ function onSetKey(crc, key, err, reply){
   }
 }
 
-function onGetOldKey(rc, key, cval, err, reply){
-  if(cval != reply)
-    readc.set(key, cval);  
-}
+// function onGetOldKey(rc, key, cval, err, reply){
+//   if(cval != reply)
+//     readc.set(key, cval);  
+// }
 
-function onDelKey(crc, key){
+function onDelKey(crc, ckey){
+  key = last_del  
+  if (!(key in sessions)) return
   delete sessions[key]
   for(rcaddress in redisClients){
     if (rcaddress == crc.address) continue

@@ -23,7 +23,7 @@
   replace:
     path: /opt/sharelatex-dockerized/.env 
     regexp: "core_ip"
-    replace: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"
+    replace: "{{ hostvars[groups['core'][0]]['ansible_' + n1]['ipv4']['address'] }}"
 
 
 - name: Download Locust load generator
