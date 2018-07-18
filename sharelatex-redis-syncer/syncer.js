@@ -9,6 +9,9 @@ app.use(bodyParser.json());
 
 var ptrn = 'sess*'
 var redisClients = {}
+var readers={}
+var setters={}
+var deleters={}
 var sessions={}
 
 
@@ -16,8 +19,8 @@ var sessions={}
 // addRedis('192.168.56.100', '6379')
 
 app.post('/add_redis', function (req, res) {
-    host = req.body.host
-    port = req.body.port
+    var host = req.body.host
+    var port = req.body.port
     addRedis(host, port)
     res.send('OK')
   
@@ -43,7 +46,7 @@ function onConnectionFail(rc, err){
 function onConnect(rc){
     rc.config("SET", "notify-keyspace-events", "Kg\$");
     rc.keys(ptrn, function(err, replies){
-      keys = replies
+      var keys = replies
       rc.mget(replies, function(err, replies){
         initalSync(rc, keys, replies)
       });
@@ -53,7 +56,7 @@ function onConnect(rc){
 
 function initalSync(rc, keys, vals){
   console.log('initial sync for %s', rc.address);
-  kval = []
+  var kval = []
 
   for(sess in sessions){
     if (keys.indexOf(sess) == -1){
@@ -75,11 +78,16 @@ function initalSync(rc, keys, vals){
     }
   }
 
+  readers[rc.address] = redis.createClient('redis://'+rc.address)
+  setters[rc.address] = redis.createClient('redis://'+rc.address)
+  deleters[rc.address] = redis.createClient('redis://'+rc.address)
+  
   if (kval.length > 0) {
     for(addr in redisClients){
       if(addr == rc.address) continue
-      readc = redis.createClient('redis://'+addr);
-      readc.mset(kval);  
+      //readc = redis.createClient('redis://'+addr);
+      //readc.mset(kval);  
+      setters[addr].mset(kval)
     }
   }
 
@@ -91,58 +99,56 @@ function initalSync(rc, keys, vals){
   console.log('%s connected successfully', rc.address);
 }
 
-last_set = ''
-last_del = ''
+//last_set=''
+//last_del=''
 function onKeyUpdated(rc, pattern, channel, message){
-   key = channel.split('__:')[1]
+   var key = channel.split('__:')[1]
    if (message == 'set'){
-      last_set = key
-      readc = redis.createClient('redis://'+rc.address);
-      readc.get(key, function(err, reply){onSetKey(rc, key, err, reply)});
+      //last_set = key
+      //readc = redis.createClient('redis://'+rc.address);
+      //readc.get(key, function(err, reply){onSetKey(rc,key, err, reply)});
+      readers[rc.address].get(key, function(err, reply){onSetKey(rc,key, err, reply)});
    }
    if (message == 'del'){
-      last_del = key
-      onDelKey(rc, key)
+      //last_del = key
+      onDelKey(rc,key)
    }
 }
 
 
-function onSetKey(crc, ckey, err, reply){
-  cval = reply
-  key = last_set //ckey gets confused 
+function onSetKey(crc, key, err, reply){
+  var cval = reply
+  //key  = last_set
   if(key in sessions && sessions[key] == cval) return 
   sessions[key]=cval
   for(rcaddress in redisClients){
     if (rcaddress == crc.address) continue
-    readc = redis.createClient('redis://'+rcaddress);
-    readc.set(key, cval);  
-    // readc.get(key, function(err, reply){onGetOldKey(readc, key, cval, err, reply)});  
+    //readc = redis.createClient('redis://'+rcaddress);
+    //readc.set(key, cval);  
+    setters[rcaddress].set(key, cval);  
   }
 }
 
-// function onGetOldKey(rc, key, cval, err, reply){
-//   if(cval != reply)
-//     readc.set(key, cval);  
-// }
 
-function onDelKey(crc, ckey){
-  key = last_del  
-  if (!(key in sessions)) return
+function onDelKey(crc, key){
+  //key = last_del
+  if(!(key in sessions)) return;
   delete sessions[key]
   for(rcaddress in redisClients){
     if (rcaddress == crc.address) continue
-    readc = redis.createClient('redis://'+rcaddress);
-    readc.del(key);  
+    //readc = redis.createClient('redis://'+rcaddress);
+    //readc.del(key);  
+    deleters[rcaddress].del(key);  
   }
 }
 
 app.get('/*', function (req, res) {
-    sesstxt = 'Sessions:<br>'
+    var sesstxt = 'Sessions:<br>'
     for(k in sessions){
         sesstxt += k + ' => ' + sessions[k]+'<br>' 
     } 
 
-    redistxt = 'Redises:<br>'
+    var redistxt = 'Redises:<br>'
     for(addr in redisClients)
       redistxt += addr + '<br>' 
 
@@ -152,6 +158,8 @@ app.get('/*', function (req, res) {
 
 port = 8006
 app.listen(port, () => console.log('Syncer listening on port:' + port))
+
+
 
 
 
