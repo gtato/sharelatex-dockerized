@@ -11,6 +11,7 @@
 [ -z "$NGINX_CONFIG" ] && NGINX_CONFIG="DEFAULT"
 [ -z "$SHARELATEX_REAL_TIME_URL" ] && SHARELATEX_REAL_TIME_URL="http://real-time:3026"
 [ -z "$SHARELATEX_WEB_URL" ] && SHARELATEX_WEB_URL="http://web:80"
+[ -z "$KOALA_API" ] && KOALA_API="http://172.17.0.1:8008/api/get"
 
 
 if [ "$NGINX_CONFIG" = "KOALA" ]
@@ -23,6 +24,7 @@ fi
 
 sed -i 's@SHARELATEX_REAL_TIME_URL@'"$SHARELATEX_REAL_TIME_URL"'@g' /etc/nginx/sites-enabled/sharelatex.conf
 sed -i 's@SHARELATEX_WEB_URL@'"$SHARELATEX_WEB_URL"'@g' /etc/nginx/sites-enabled/sharelatex.conf
+sed -i 's@KOALA_API@'"$KOALA_API"'@g' /etc/nginx/sites-enabled/sharelatex.conf
 
 mongod --config /etc/mongod.conf&
 service nginx start&

@@ -21,7 +21,7 @@ services:
             SHARELATEX_APP_NAME: MicroSharedLatex
             SHARELATEX_SESSION_SECRET: 'secret-please-change'
             SHARELATEX_CONFIG: /etc/sharelatex/settings.coffee
-            SHARELATEX_SITE_URL: http://localhost:8080/
+            SHARELATEX_SITE_URL: "http://localhost:8080/"
             NGINX_CONFIG: "KOALA"
 
             # KOALA: "http://192.168.56.1:8008/api/get"
