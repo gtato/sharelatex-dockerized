@@ -34,21 +34,27 @@ traffic:
       delay: 35ms
       symetric: True 
 
-# g5k:
-#   resources:
-#     machines:
-#       - role: control
-#         cluster: paravance
-#         nodes: 1
-#         primary_network: n1
-#         secondary_networks: []
-#       - roles: [control, compute]
-#         cluster: parasilo
-#         nodes: 1
-#         primary_network: n1
-#         secondary_networks: []
-#     networks:
-#       - id: n1
-#         type: prod
-#         role: my_network
-#         site: rennes
+g5k:
+  walltime: 03:00:00
+  resources:
+    machines:
+      - role: core
+        cluster: paravance
+        nodes: 1
+        primary_network: n1
+        secondary_networks: []
+      - roles: [edge, edge1]
+        cluster: paravance
+        nodes: 1
+        primary_network: n1
+        secondary_networks: []
+      - roles: [edge, edge2]
+        cluster: paravance
+        nodes: 1
+        primary_network: n1
+        secondary_networks: []
+    networks:
+      - id: n1
+        type: prod
+        role: my_network
+        site: rennes
