@@ -40,6 +40,8 @@ services:
             SHARELATEX_TRACK_CHANGES_URL: "${CONSUL_API}/sharelatex-track-changes"
 
             SHARELATEX_WEB_URL: "${CONSUL_API}/sharelatex-web-80"
+            SHARELATEX_MONGO_URL: mongodb://${CORE_IP}/sharelatex
+
         networks:
             default:
                 aliases:
@@ -49,71 +51,12 @@ services:
     clsi:
         restart: always
         image: gtato/sharelatex-clsi
-        #build: sharelatex-clsi
-        # container_name: sharelatex-clsi
-        # expose:
-        #     - 3013
         depends_on:
             - registrator
         ports:
             - 3013:3013
 
-    filestore:
-        restart: always
-        image: gtato/sharelatex-filestore
-        #build: sharelatex-filestore
-        volumes:
-            - ~/sharelatex_data/filestore:/app/data
-        depends_on:
-            - registrator
-        ports:
-            - 3009:3009
-        
-
-    docstore:
-        restart: always
-        image: gtato/sharelatex-docstore
-        #build: sharelatex-docstore
-        volumes:
-            - ~/sharelatex_data/docstore:/var/lib/mongodb
-        ports:
-            - 3016:3016
-        depends_on:
-            - registrator
-
-    tags:
-        restart: always
-        #build: sharelatex-tags
-        image: gtato/sharelatex-tags
-        volumes:
-            - ~/sharelatex_data/tags:/var/lib/mongodb
-        ports:
-            - 3012:3012
-        depends_on:
-            - registrator
-
-    notifications:
-        restart: always
-        image: gtato/sharelatex-notifications
-        #build: sharelatex-notifications
-        volumes:
-            - ~/sharelatex_data/notifications:/var/lib/mongodb
-        ports:
-            - 3042:3042
-        depends_on:
-            - registrator
-
-    contacts:
-        restart: always
-        image: gtato/sharelatex-contacts
-        #build: sharelatex-contacts
-        volumes:
-            - ~/sharelatex_data/contacts:/var/lib/mongodb
-        ports:
-            - 3036:3036
-        depends_on:
-            - registrator
-        
+         
     spelling:
         restart: always
         image: gtato/sharelatex-spelling
@@ -163,10 +106,6 @@ services:
     real-time:
         restart: always
         image: gtato/sharelatex-real-time
-        #build: sharelatex-real-time
-        # container_name: sharelatex-real-time
-        # expose:
-        #     - 3026
         ports:
             - 3026:3026
         depends_on:
@@ -207,16 +146,6 @@ services:
         depends_on:
             - consul
 
-    # registrator:
-    #     command: "/bin/registrator -internal=true koala://172.17.0.1:8008"
-    #     image: gtato/registrator
-    #     # dockcontainer_name: registrator
-    #     volumes:
-    #         - "/var/run/docker.sock:/tmp/docker.sock"
-    #     depends_on: 
-    #         # - redis-syncer
-    #         - koala
-
     consul:
         image: consul:latest
         command: "agent -server -bootstrap -datacenter dc1 -node server1 -ui -client 0.0.0.0 "
@@ -245,14 +174,6 @@ services:
         depends_on:
             - consul
             - redis 
-
-    mongo:
-        restart: always
-        image: mongo
-        ports:
-            - 27017:27017
-        volumes:
-            - ~/mongo_data:/data/db
 
     redis:
         restart: always
