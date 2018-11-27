@@ -245,7 +245,7 @@ services:
             SYNCER_URL: "http://${CORE_IP}:8006"
             KOALA_BOOT_URL: "http://${CORE_IP}:8007"
             KOALA_URL: "${CORE_IP}:8008"
-            CORE: true
+            CORE: "true"
             IFACE: eth0
             
         depends_on:
