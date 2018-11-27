@@ -241,12 +241,12 @@ services:
                     - koala
         environment:
             # - KOALA_DC
-            - KOALA_BOOT: "1"
-            - SYNCER_URL: "http://${CORE_IP}:8006"
-            - KOALA_BOOT_URL: "http://${CORE_IP}:8007"
-            - KOALA_URL: "${CORE_IP}:8008"
-            - CORE: true
-            - IFACE: eth0
+            KOALA_BOOT: "1"
+            SYNCER_URL: "http://${CORE_IP}:8006"
+            KOALA_BOOT_URL: "http://${CORE_IP}:8007"
+            KOALA_URL: "${CORE_IP}:8008"
+            CORE: true
+            IFACE: eth0
             
         depends_on:
             - redis-syncer
