@@ -208,26 +208,6 @@ services:
             # - redis-syncer
             - koala
 
-    # koala:
-    #     image: gtato/koala
-    #  #   build: ../koala-discovery/koala
-    #     privileged: true
-    #     ports:
-    #         - 8008:8008
-    #         - 8007:8007
-    #     networks:
-    #         default:
-    #             aliases:
-    #                 - koala
-    #     environment:
-    #         # - KOALA_DC
-    #        KOALA_BOOT: "1"
-    #        SYNCER_URL: "http://${CORE_IP}:8006"
-    #        KOALA_BOOT_URL: "http://${CORE_IP}:8007"
-    #        KOALA_URL: "${CORE_IP}:8008"
-    #     depends_on:
-    #         - redis-syncer
-
     koala:
         image: gtato/koala:redirect
      #   build: ../koala-discovery/koala
@@ -247,6 +227,7 @@ services:
             KOALA_URL: "http://${CORE_IP}:8008"
             CORE: "true"
             IFACE: eth0
+            TRANSFER_THRESHOLD: "100"
             
         depends_on:
             - redis-syncer

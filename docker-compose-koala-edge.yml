@@ -159,10 +159,11 @@ services:
                     - koala
         environment:
             # - KOALA_DC
-             SYNCER_URL: "http://${CORE_IP}:8006"
-             KOALA_BOOT_URL: "http://${CORE_IP}:8007"
-             KOALA_URL: "http://${EDGE_IP}:8008"
-             IFACE: "eth0"
+            SYNCER_URL: "http://${CORE_IP}:8006"
+            KOALA_BOOT_URL: "http://${CORE_IP}:8007"
+            KOALA_URL: "http://${EDGE_IP}:8008"
+            IFACE: "eth0"
+            TRANSFER_THRESHOLD: "100"
 
     redis:
         restart: always
