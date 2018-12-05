@@ -163,6 +163,7 @@ services:
             KOALA_BOOT_URL: "http://${CORE_IP}:8007"
             KOALA_URL: "http://${EDGE_IP}:8008"
             IFACE: "eth0"
+            ALIAS: "${ALIAS}"
             TRANSFER_THRESHOLD: "100"
 
     redis:

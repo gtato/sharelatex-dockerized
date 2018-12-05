@@ -215,6 +215,7 @@ services:
         ports:
             - 8008:8008
             - 8007:8007
+            - 3000:3000
         networks:
             default:
                 aliases:
@@ -222,11 +223,13 @@ services:
         environment:
             # - KOALA_DC
             KOALA_BOOT: "1"
+            TEST_SERVER: "1"
+            CORE: "true"
             SYNCER_URL: "http://${CORE_IP}:8006"
             KOALA_BOOT_URL: "http://${CORE_IP}:8007"
             KOALA_URL: "http://${CORE_IP}:8008"
-            CORE: "true"
             IFACE: eth0
+            ALIAS: "${ALIAS}"
             TRANSFER_THRESHOLD: "100"
             
         depends_on:
