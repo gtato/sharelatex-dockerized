@@ -215,7 +215,7 @@ services:
         ports:
             - 8008:8008
             - 8007:8007
-            - 3000:3000
+            - 4000:4000
         networks:
             default:
                 aliases:

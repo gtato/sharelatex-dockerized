@@ -1,19 +1,26 @@
 
 ---
 
-- name: Start Sharelatex in the core
-  command: docker-compose -f docker-compose-koala-core.yml up -d
-  args:                                                                     
-        chdir: /opt/sharelatex-dockerized/ 
-  environment:
-        CORE_IP: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"
+- name: Update edge IP in environment file 
+  replace:
+    path: /opt/sharelatex-dockerized/.env 
+    regexp: "koala_alias"
+    replace: "core"
+
+# - name: Start Sharelatex in the core
+#   command: docker-compose -f docker-compose-koala-core.yml up -d
+#   args:                                                                     
+#         chdir: /opt/sharelatex-dockerized/ 
+#   environment:
+#         CORE_IP: "{{ hostvars[inventory_hostname]['ansible_' + n1]['ipv4']['address'] }}"
+#         ALIAS: "core"
 
 
 
-- name: Run a little check to see if everything started 
-  command: python check.py
-  args:                                                                     
-        chdir: /opt/sharelatex-dockerized/ 
+# - name: Run a little check to see if everything started 
+#   command: python check.py
+#   args:                                                                     
+#         chdir: /opt/sharelatex-dockerized/ 
 
 
   

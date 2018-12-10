@@ -9,7 +9,7 @@ vagrant:
         networks: [n1]
       
       - roles:
-          - edge
+          - edge 
           - edge1
         flavor: small
         number: 1
@@ -22,17 +22,56 @@ vagrant:
         number: 1
         networks: [n1]
 
+      - roles:
+          - edge 
+          - edge3
+        flavor: small
+        number: 1
+        networks: [n1]
+
+      - roles:
+          - edge 
+          - edge4
+        flavor: small
+        number: 1
+        networks: [n1]
+
 traffic:
   enable: True
   default_delay: 25ms
   default_rate: 10gbit
-  groups: ["core", "edge1", "edge2" ]
+  groups: ["core", "edge1", "edge2", "edge3", "edge4" ]
   # groups: ["core", "edge1" ]
   constraints:
     - src: edge1
       dst: edge2
-      delay: 35ms
+      delay: 10ms
+      symetric: True
+
+    - src: edge2
+      dst: edge3
+      delay: 10ms
+      symetric: True
+
+    - src: edge1
+      dst: edge3
+      delay: 30ms
       symetric: True 
+ 
+    - src: edge1
+      dst: edge4
+      delay: 50ms
+      symetric: True
+
+    - src: edge2
+      dst: edge4
+      delay: 50ms
+      symetric: True
+
+    - src: edge3
+      dst: edge4
+      delay: 50ms
+      symetric: True  
 
 g5k:
   walltime: 03:00:00
