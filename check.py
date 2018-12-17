@@ -16,6 +16,8 @@ def main():
             if img_clean == 'sharelatex-web':
                 img_clean = 'sharelatex-web-80'
             shl_services.append(img_clean )
+        if 'redis' in img and 'redis-syncer' not in img:
+            shl_services.append(img)
     print shl_services
 
     contents = []
