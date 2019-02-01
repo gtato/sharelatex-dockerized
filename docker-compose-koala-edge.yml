@@ -57,19 +57,19 @@ services:
             - 3013:3013
 
         
-    spelling:
-        restart: always
-        image: gtato/sharelatex-spelling
-        # build: sharelatex-spelling
-        # container_name: sharelatex-spelling
-        # expose:
-        #     - 3005
-        ports:
-            - 3005:3005
-        depends_on:
-            - registrator
-        volumes:
-            - ~/sharelatex_data/spelling:/var/lib/mongodb
+    # spelling:
+    #     restart: always
+    #     image: gtato/sharelatex-spelling
+    #     # build: sharelatex-spelling
+    #     # container_name: sharelatex-spelling
+    #     # expose:
+    #     #     - 3005
+    #     ports:
+    #         - 3005:3005
+    #     depends_on:
+    #         - registrator
+    #     volumes:
+    #         - ~/sharelatex_data/spelling:/var/lib/mongodb
 
 
     chat:

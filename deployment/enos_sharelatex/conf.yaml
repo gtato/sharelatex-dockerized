@@ -3,7 +3,10 @@ vagrant:
   backend: virtualbox
   resources:
     machines:
-      - role: core
+      
+      - roles: 
+        - core
+        - core-edge
         flavor: medium
         number: 1
         networks: [n1]
@@ -11,7 +14,7 @@ vagrant:
       - roles:
           - edge 
           - edge1
-        flavor: small
+        flavor: small #  medium
         number: 1
         networks: [n1]
 
@@ -36,64 +39,92 @@ vagrant:
         number: 1
         networks: [n1]
 
+      # centralized one
+      # - roles:
+      #     - core 
+      #     - core-centralized
+      #   flavor: medium
+      #   number: 1
+      #   networks: [n1]
+
 traffic:
   enable: True
-  default_delay: 25ms
+  default_delay: 20ms
   default_rate: 10gbit
   groups: ["core", "edge1", "edge2", "edge3", "edge4" ]
-  # groups: ["core", "edge1" ]
+  # groups: ["core-edge", "edge1", "core-centralized" ]
   constraints:
+    - src: core
+      dst: edge2
+      delay: 8ms
+      symetric: True
+
     - src: edge1
       dst: edge2
-      delay: 10ms
+      delay: 12ms
       symetric: True
 
     - src: edge2
       dst: edge3
-      delay: 10ms
+      delay: 12ms
       symetric: True
 
     - src: edge1
       dst: edge3
-      delay: 30ms
+      delay: 24ms
       symetric: True 
  
     - src: edge1
       dst: edge4
-      delay: 50ms
+      delay: 70ms
       symetric: True
 
     - src: edge2
       dst: edge4
-      delay: 50ms
+      delay: 70ms
       symetric: True
 
     - src: edge3
       dst: edge4
-      delay: 50ms
+      delay: 58ms
       symetric: True  
 
 g5k:
-  walltime: 03:00:00
+  walltime: 06:00:00
   resources:
     machines:
-      - role: core
+      - roles: [core, core-edge]
         cluster: paravance
         nodes: 1
         primary_network: n1
         secondary_networks: []
+        min: 1
       - roles: [edge, edge1]
         cluster: paravance
         nodes: 1
         primary_network: n1
         secondary_networks: []
+        min: 1
       - roles: [edge, edge2]
         cluster: paravance
         nodes: 1
         primary_network: n1
         secondary_networks: []
+        min: 1
+      - roles: [edge, edge3]
+        cluster: paravance
+        nodes: 1
+        primary_network: n1
+        secondary_networks: []
+        min: 1
+      - roles: [edge, edge4]
+        cluster: paravance
+        nodes: 1
+        primary_network: n1
+        secondary_networks: []
+        min: 1
     networks:
       - id: n1
         type: prod
-        role: my_network
+        role: n1
         site: rennes
